@@ -4,6 +4,9 @@ import com.fegan.Card;
 import com.fegan.Deck;
 
 import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+import java.util.Scanner;
 
 public class Dealer extends GameParticipant {
     private Deck cardDeck;
@@ -43,6 +46,7 @@ public class Dealer extends GameParticipant {
     }
     public void shuffleCardDeck() {
         Collections.shuffle(cardDeck.getCardDeck());
+        System.out.println("Dealer has shuffled the deck");
     }
     public void dealStartingHands(Player player) {
         int numberOfCardsDealtAtStartToHumanAndDealer = 4;
@@ -53,20 +57,27 @@ public class Dealer extends GameParticipant {
                 dealNextCardAndAddToHand(player);
             }
         }
-        /* if (player.getHand().get(0).equals(player.getHand().get(1))) {
+        System.out.print("One of the dealer's starting hand is: " + hand.getFirst());
+        System.out.print("The other (blind) card is: " + hand.getLast());
+        System.out.println("Your starting hand is: " + player.getHand());
+
+        if (player.getHand().getFirst().getRank().equals(player.getHand().getLast().getRank())) {
             Scanner sc = new Scanner(System.in);
             System.out.println("Do you want to split your hand? Press Y to split your hand or any other key to continue with 1 hand");
             String split = sc.next();
             if (split.equals("y")) {
-                create two hands here, with 1 card each
+                player.splitStartingHand();
             }
         }
-        */
-        System.out.print("One of the dealer's starting hand is: " + hand.getFirst());
-        System.out.print("The other (blind) card is: " + hand.getLast());
-
-        System.out.println("Your starting hand is: " + player.getHand());
-    } // bug: this needs to cope with splitting the starting hand if both cards are the same rank
+        if (hand.getFirst().getRank().equals(hand.getLast().getRank())) {
+            int split = new Random().nextInt(0,2);
+            if (split == 0) {
+                System.out.println("Dealer has chosen not to split its hand");
+            } else {
+                splitStartingHand();
+            }
+        }
+    } // splitHand() methods invoked but not implemented
     public void dealNextCardAndAddToHand(Player player) {
         Card card = cardDeck.getCardDeck().get(cardDeck.getIndex());
         player.getHand().add(card);
@@ -77,4 +88,12 @@ public class Dealer extends GameParticipant {
         hand.add(card);
         cardDeck.setIndex(cardDeck.getIndex() + 1);
     }
+    public Deck getCardDeck() {
+        return cardDeck;
+    }
+    @Override
+    public List<List<Card>> splitStartingHand() {
+        System.out.println("Dealer has chosen to split its hand");
+        return List.of();
+    } // implementation required
 }

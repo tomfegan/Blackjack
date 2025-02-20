@@ -11,7 +11,14 @@ public class Main {
         Dealer dealer = new Dealer(oneCardDeck);
         dealer.shuffleCardDeck();
         System.out.println(oneCardDeck);
-        Game match1 = new Game(new Player("James"), new Dealer(oneCardDeck));
+        Player james = new Player("James");
+        Dealer dealer1 = new Dealer(oneCardDeck);
+        Game match1 = new Game(james, dealer1);
         match1.playGame(new Scanner(System.in));
+        Game match2 = new Game(james, dealer1);
+        match2.playGame(new Scanner(System.in));
+//        Game match3 = new Game(james, dealer1);
+//        match3.playGame(new Scanner(System.in));
+
     }
 }

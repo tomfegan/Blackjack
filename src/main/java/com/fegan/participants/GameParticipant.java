@@ -7,7 +7,6 @@ import java.util.List;
 public abstract class GameParticipant {
     protected int handScore;
     protected List<Card> hand;
-
     public GameParticipant() {
         handScore = 0;
         hand = new ArrayList<>();
@@ -18,4 +17,11 @@ public abstract class GameParticipant {
     public int getHandScore() {
         return handScore;
     }
+    public void setHandScore(int handScore) {
+        this.handScore = handScore;
+    }
+    public void setHand(List<Card> hand) {
+        this.hand = hand;
+    }
+    public abstract List<List<Card>> splitStartingHand();
 }

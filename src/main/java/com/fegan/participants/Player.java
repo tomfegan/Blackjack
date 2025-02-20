@@ -1,20 +1,27 @@
 package com.fegan.participants;
 
 import com.fegan.Card;
+
+import java.util.List;
 import java.util.Scanner;
 
 public class Player extends GameParticipant {
     final private String name;
-    private String winRecord;
-    private int gamesPlayed;
+    private StringBuilder winRecord;
     public Player() {
         this("John Doe");
     }
+
+    @Override
+    public List<List<Card>> splitStartingHand() {
+        System.out.println("You want to split the deck - you have 2 hands");
+        return List.of();
+    } // implementation required
+
     public Player(String name) {
         super();
         this.name = name;
-        gamesPlayed = 0;
-        winRecord = "No games played";
+        winRecord = new StringBuilder(this.name + "'s win record: ");
     }
     public void calculateCurrentHandScoreForPlayer() {
         int tempHandScore = 0;
@@ -50,5 +57,11 @@ public class Player extends GameParticipant {
         } else {
             return false;
         }
+    }
+    public StringBuilder getWinRecord() {
+        return winRecord;
+    }
+    public void setWinRecord(StringBuilder winRecord) {
+        this.winRecord = winRecord;
     }
 }
