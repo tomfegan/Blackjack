@@ -39,7 +39,12 @@ public class Game {
         System.out.println("Dealer's hand: " + dealer.getHand());
 
         winner();
-        setUpNewGame();
+        System.out.println("Do you want to play another game?");
+        String newGame = scanner.next().toLowerCase().trim();
+        if (newGame.equals("y")) {
+            setUpNewGame();
+            playGame(scanner);
+        }
     }
     private void winner() {
         if (player.getHandScore() == dealer.getHandScore()) {
@@ -64,7 +69,7 @@ public class Game {
         System.out.println(player.getWinRecord());
         System.out.println("----------------");
     }
-    public void setUpNewGame() {
+    private void setUpNewGame() {
         player.setHand(new ArrayList<>());
         player.setHandScore(0);
         dealer.setHand(new ArrayList<>());

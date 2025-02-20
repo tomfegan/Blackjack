@@ -88,6 +88,12 @@ public class Dealer extends GameParticipant {
         hand.add(card);
         cardDeck.setIndex(cardDeck.getIndex() + 1);
     }
+//    public void dealNextCardAndAddToHand(GameParticipant participant) {
+//        Card card = cardDeck.getCardDeck().get(cardDeck.getIndex());
+//        hand.add(card);
+//        cardDeck.setIndex(cardDeck.getIndex() + 1);
+//    }
+
     public Deck getCardDeck() {
         return cardDeck;
     }

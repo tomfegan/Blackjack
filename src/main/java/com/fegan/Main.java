@@ -15,8 +15,8 @@ public class Main {
         Dealer dealer1 = new Dealer(oneCardDeck);
         Game match1 = new Game(james, dealer1);
         match1.playGame(new Scanner(System.in));
-        Game match2 = new Game(james, dealer1);
-        match2.playGame(new Scanner(System.in));
+//        Game match2 = new Game(james, dealer1);
+//        match2.playGame(new Scanner(System.in));
 //        Game match3 = new Game(james, dealer1);
 //        match3.playGame(new Scanner(System.in));
 
