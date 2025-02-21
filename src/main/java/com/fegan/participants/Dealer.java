@@ -88,4 +88,13 @@ public class Dealer extends GameParticipant {
         }
         System.out.println(displayHandAsCommaSeparatedList);
     }
+    public void executeDealersPredeterminedHitAndStandRules() {
+        while (handScore < 17) { // soft 17 rules
+            dealNextCardAndAddToHand(this);
+            System.out.println("Dealer drew another card...");
+            printCardsInCurrentHand();
+            calculateCurrentHandScore();
+        }
+    }
+
 }

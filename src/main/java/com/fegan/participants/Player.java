@@ -88,4 +88,17 @@ public class Player extends GameParticipant {
         }
         System.out.println(displayHandAsCommaSeparatedList);
     }
+    public void playerHitOrStand(Scanner scanner, Dealer dealer) {
+        while (handScore <= 21 && doesPlayerWantNextCard(scanner)) {
+            dealer.dealNextCardAndAddToHand(this);
+            calculateCurrentHandScoreForPlayer();
+            printCardsInCurrentHand();
+            System.out.println(handScore <= 21 ? "Current score for " + name + " is " +
+                    handScore : name + " went bust!");
+            if (handScore > 21) {
+                break;
+            }
+        }
+    }
+
 }

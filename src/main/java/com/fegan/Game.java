@@ -21,36 +21,16 @@ public class Game {
             winner();
         } else {
             System.out.println(player.getName() + " starting hand score: " + player.getHandScore());
-            playerHitOrStand(scanner);
+            player.playerHitOrStand(scanner, dealer);
             System.out.printf("Dealer reveals their hole (face down) card - it is %s%n", dealer.getHand().getLast());
             dealer.printCardsInCurrentHand();
-            executeDealersPredeterminedHitAndStandRules();
+            dealer.executeDealersPredeterminedHitAndStandRules();
             winner();
         }
         playNewGame(scanner);
     }
     private boolean checkForNaturalBlackJacks() {
         return player.getHandScore() == 21 || dealer.getHandScore() == 21;
-    }
-    public void playerHitOrStand(Scanner scanner) {
-        while (player.getHandScore() <= 21 && player.doesPlayerWantNextCard(scanner)) {
-            dealer.dealNextCardAndAddToHand(player);
-            player.calculateCurrentHandScoreForPlayer();
-            player.printCardsInCurrentHand();
-            System.out.println(player.getHandScore() <= 21 ? "Current score for " + player.getName() + " is " +
-                    player.getHandScore() : player.getName() + " went bust!");
-            if (player.getHandScore() > 21) {
-                break;
-            }
-        }
-    }
-    public void executeDealersPredeterminedHitAndStandRules() {
-        while (dealer.getHandScore() < 17) { // soft 17 rules
-            dealer.dealNextCardAndAddToHand(dealer);
-            System.out.println("Dealer drew another card...");
-            dealer.printCardsInCurrentHand();
-            dealer.calculateCurrentHandScore();
-        }
     }
     private void winner() {
         // test case 1: player starting hand is Blackjack and dealer is not Blackjack so player wins
