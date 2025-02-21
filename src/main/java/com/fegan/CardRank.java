@@ -14,4 +14,6 @@ public enum CardRank {
     JACK_OF_,
     QUEEN_OF_,
     KING_OF_;
+
+
 }

@@ -26,7 +26,7 @@ public class Card {
     }
     @Override
     public String toString() {
-        return String.format("%s%s%n", rank, suit);
+        return String.format("%s%s", rank, suit);
     }
     public CardRank getRank() {
         return rank;

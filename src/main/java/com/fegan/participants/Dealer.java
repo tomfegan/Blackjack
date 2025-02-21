@@ -4,44 +4,36 @@ import com.fegan.Card;
 import com.fegan.Deck;
 
 import java.util.Collections;
-import java.util.List;
-import java.util.Random;
 import java.util.Scanner;
 
 public class Dealer extends GameParticipant {
     private Deck cardDeck;
-    private boolean containsAce;
     public Dealer(Deck orderedCardDeck) {
         super();
         cardDeck = orderedCardDeck;
     }
+    public Deck getCardDeck() {
+        return cardDeck;
+    }
     public void calculateCurrentHandScore() {
-        int handScoreWhenAceEqualsOne = 0;
-        int handScoreWhenAceEqualsEleven = 0;
-
+        boolean doesHandContainAce = false;
+        handScore = 0;
+        int aces = 0;
         for (Card card : getHand()) {
             if (card.getRank().equals(com.fegan.CardRank.ACE_OF_)) {
-                containsAce = true;
-                if (handScore + 11 > 21) {
-                    handScoreWhenAceEqualsOne += 1;
-                } else {
-                    handScoreWhenAceEqualsEleven += 11;
-                }
+                doesHandContainAce = true;
+                handScore += 11;
+                aces++;
             } else {
-                handScoreWhenAceEqualsOne += card.getCardValue();
-                handScoreWhenAceEqualsEleven += card.getCardValue();
+                handScore += card.getCardValue();
             }
         }
-        if (handScoreWhenAceEqualsEleven > handScoreWhenAceEqualsOne && handScoreWhenAceEqualsEleven <= 21) {
-            handScore = handScoreWhenAceEqualsEleven;
-            System.out.println("Dealer's hand score when ACE treated as 11: " + handScore);
-        } else {
-            handScore = (handScoreWhenAceEqualsOne);
-            if (containsAce) {
-                System.out.println("Dealer's hand score when ACE treated as 1: " + handScore);
-            } else {
-                System.out.println("Dealer's hand score (no ACE in hand): " + handScore);
-            }
+
+        if (handScore > 21 && doesHandContainAce) {
+            handScore = handScore - (10 * aces);
+            System.out.printf("The dealer has treated the ace in their hand as 1 - dealer's hand is a 'soft %d'%n", handScore);
+        } else if (doesHandContainAce) {
+            System.out.printf("The dealer has treated the ace in their hand as 11 - dealer's hand is a 'soft %d'%n", handScore);
         }
     }
     public void shuffleCardDeck() {
@@ -52,14 +44,14 @@ public class Dealer extends GameParticipant {
         int numberOfCardsDealtAtStartToHumanAndDealer = 4;
         for (int i = 0; i < numberOfCardsDealtAtStartToHumanAndDealer; i++) {
             if (i % 2 == 0) {
-                dealNextCardAndAddToHand();
+                dealNextCardAndAddToHand(this);
             } else {
                 dealNextCardAndAddToHand(player);
             }
         }
-        System.out.print("One of the dealer's starting hand is: " + hand.getFirst());
-        System.out.print("The other (blind) card is: " + hand.getLast());
-        System.out.println("Your starting hand is: " + player.getHand());
+        System.out.printf("Dealer's starting hand: face UP card is %s%n", hand.getFirst());
+//        System.out.printf("Dealer's starting hand: face DOWN card is %s%n", hand.getLast()); // this should be removed
+        player.printCardsInCurrentHand();
 
         if (player.getHand().getFirst().getRank().equals(player.getHand().getLast().getRank())) {
             Scanner sc = new Scanner(System.in);
@@ -69,37 +61,28 @@ public class Dealer extends GameParticipant {
                 player.splitStartingHand();
             }
         }
-        if (hand.getFirst().getRank().equals(hand.getLast().getRank())) {
-            int split = new Random().nextInt(0,2);
-            if (split == 0) {
-                System.out.println("Dealer has chosen not to split its hand");
-            } else {
-                splitStartingHand();
-            }
+    } // splitHand() method is invoked by this method but has not been implemented
+    public void dealNextCardAndAddToHand(GameParticipant participant) {
+        Card card = cardDeck.getCardDeck().get(cardDeck.getIndex());
+        if (participant instanceof Dealer) {
+            hand.add(card);
+        } else if (participant instanceof Player) {
+            participant.getHand().add(card);
         }
-    } // splitHand() methods invoked but not implemented
-    public void dealNextCardAndAddToHand(Player player) {
-        Card card = cardDeck.getCardDeck().get(cardDeck.getIndex());
-        player.getHand().add(card);
         cardDeck.setIndex(cardDeck.getIndex() + 1);
-    }
-    public void dealNextCardAndAddToHand() {
-        Card card = cardDeck.getCardDeck().get(cardDeck.getIndex());
-        hand.add(card);
-        cardDeck.setIndex(cardDeck.getIndex() + 1);
-    }
-//    public void dealNextCardAndAddToHand(GameParticipant participant) {
-//        Card card = cardDeck.getCardDeck().get(cardDeck.getIndex());
-//        hand.add(card);
-//        cardDeck.setIndex(cardDeck.getIndex() + 1);
-//    }
-
-    public Deck getCardDeck() {
-        return cardDeck;
     }
     @Override
-    public List<List<Card>> splitStartingHand() {
-        System.out.println("Dealer has chosen to split its hand");
-        return List.of();
-    } // implementation required
+    public void printCardsInCurrentHand() {
+        StringBuilder displayHandAsCommaSeparatedList = new StringBuilder("The dealer's current hand is ");
+        for (int i = 0; i < hand.size(); i++) {
+            if (i < hand.size() - 2) {
+                displayHandAsCommaSeparatedList.append(hand.get(i)).append(", ");
+            } else if (i < hand.size() - 1) {
+                displayHandAsCommaSeparatedList.append(hand.get(i)).append(" and ");
+            } else {
+                displayHandAsCommaSeparatedList.append(hand.get(i));
+            }
+        }
+        System.out.println(displayHandAsCommaSeparatedList);
+    }
 }

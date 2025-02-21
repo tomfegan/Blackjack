@@ -21,6 +21,11 @@ public class Deck {
         cardDeck = generateOrderedCardDeck();
         index = 0;
     }
+
+    public Deck(List<Card> cardDeck) {
+        this.cardDeck = cardDeck;
+    }
+
     private List<Card> generateOrderedCardDeck() {
         for (int i = 0; i < packs; i++) {
             for (com.fegan.CardSuit cs : com.fegan.CardSuit.values()) {
