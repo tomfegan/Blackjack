@@ -13,35 +13,44 @@ public class Game {
         this.player = player;
     }
     public void playGame(Scanner scanner) {
+        dealer.shuffleCardDeck();
         dealer.dealStartingHands(player);
         player.calculateCurrentHandScoreForPlayer();
         dealer.calculateCurrentHandScore();
-        System.out.println(player.getName() + " starting hand score: " + player.getHandScore());
-        if (player.getHandScore() == 21 || dealer.getHandScore() == 21) { // this means the game ends if the dealer and/or player are dealt natural blackjacks
+        if (checkForNaturalBlackJacks()) { // the game ends if the dealer and/or player are dealt natural blackjacks
             winner();
         } else {
-            while (player.getHandScore() <= 21 && player.doesPlayerWantNextCard(scanner)) {
-                dealer.dealNextCardAndAddToHand(player);
-                player.calculateCurrentHandScoreForPlayer();
-                player.printCardsInCurrentHand();
-                System.out.println(player.getHandScore() <= 21 ? "Current score for " + player.getName() + " is " +
-                        player.getHandScore() : player.getName() + " went bust!");
-                if (player.getHandScore() > 21) {
-                    break;
-                }
-            }
-            System.out.printf("Dealer turns their hole (face down) card over - it is %s%n", dealer.getHand().getLast());
+            System.out.println(player.getName() + " starting hand score: " + player.getHandScore());
+            playerHitOrStand(scanner);
+            System.out.printf("Dealer reveals their hole (face down) card - it is %s%n", dealer.getHand().getLast());
             dealer.printCardsInCurrentHand();
-
-            while (dealer.getHandScore() < 17) { // soft 17 rules
-                dealer.dealNextCardAndAddToHand(dealer);
-                System.out.println("Dealer drew another card...");
-                dealer.calculateCurrentHandScore();
-            }
-            dealer.printCardsInCurrentHand();
+            executeDealersPredeterminedHitAndStandRules();
             winner();
         }
         playNewGame(scanner);
+    }
+    private boolean checkForNaturalBlackJacks() {
+        return player.getHandScore() == 21 || dealer.getHandScore() == 21;
+    }
+    public void playerHitOrStand(Scanner scanner) {
+        while (player.getHandScore() <= 21 && player.doesPlayerWantNextCard(scanner)) {
+            dealer.dealNextCardAndAddToHand(player);
+            player.calculateCurrentHandScoreForPlayer();
+            player.printCardsInCurrentHand();
+            System.out.println(player.getHandScore() <= 21 ? "Current score for " + player.getName() + " is " +
+                    player.getHandScore() : player.getName() + " went bust!");
+            if (player.getHandScore() > 21) {
+                break;
+            }
+        }
+    }
+    public void executeDealersPredeterminedHitAndStandRules() {
+        while (dealer.getHandScore() < 17) { // soft 17 rules
+            dealer.dealNextCardAndAddToHand(dealer);
+            System.out.println("Dealer drew another card...");
+            dealer.printCardsInCurrentHand();
+            dealer.calculateCurrentHandScore();
+        }
     }
     private void winner() {
         // test case 1: player starting hand is Blackjack and dealer is not Blackjack so player wins
@@ -57,7 +66,7 @@ public class Game {
             System.out.println(player.getName() + " wins with natural blackjack as dealer does not have a natural blackjack !");
             player.setWinRecord(player.getWinRecord().append("W"));
         } else if ( (dealer.getHand().size() == 2) && (dealer.getHandScore() == 21) && (player.getHand().get(0).getCardValue() + player.getHand().get(1).getCardValue() != 21)) {
-            System.out.println("Dealer wins with natural blackjack as " + player.getName() + "does not have a natural blackjack!");
+            System.out.println("Dealer wins with natural blackjack as " + player.getName() + " does not have a natural blackjack!");
             player.setWinRecord(player.getWinRecord().append("L"));
         } else if (player.getHandScore() > 21 && dealer.getHandScore() > 21) {
             System.out.println("Both bust but dealer wins as per the rules in the README.md file");

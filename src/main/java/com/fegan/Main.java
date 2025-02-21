@@ -7,13 +7,10 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Player james = new Player("James");
+        Player sam = new Player("Sam");
         Deck oneCardDeck = new Deck(1);
-        Dealer dealer = new Dealer(oneCardDeck);
-        dealer.shuffleCardDeck();
-//        System.out.println(oneCardDeck);
         Dealer dealer1 = new Dealer(oneCardDeck);
-        Game match1 = new Game(james, dealer1);
+        Game match1 = new Game(sam, dealer1);
         match1.playGame(new Scanner(System.in));
 
 

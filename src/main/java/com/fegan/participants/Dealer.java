@@ -31,9 +31,13 @@ public class Dealer extends GameParticipant {
 
         if (handScore > 21 && doesHandContainAce) {
             handScore = handScore - (10 * aces);
-            System.out.printf("The dealer has treated the ace in their hand as 1 - dealer's hand is a 'soft %d'%n", handScore);
+                System.out.printf("The dealer has treated the ace in their hand as 1 - dealer's hand is a 'soft %d'%n", handScore);
         } else if (doesHandContainAce) {
-            System.out.printf("The dealer has treated the ace in their hand as 11 - dealer's hand is a 'soft %d'%n", handScore);
+            if (hand.size() > 2) { // this stops the ACE being revealed when it is the face down card in the dealer's starting hand
+                System.out.printf("The dealer has treated the ace in their hand as 11 - dealer's hand is a 'soft %d'%n", handScore);
+            }
+        } else {
+            if (hand.size() > 2) { System.out.printf("The dealer's current hand score is a 'hard %d'%n", handScore); }
         }
     }
     public void shuffleCardDeck() {
@@ -50,7 +54,6 @@ public class Dealer extends GameParticipant {
             }
         }
         System.out.printf("Dealer's starting hand: face UP card is %s%n", hand.getFirst());
-//        System.out.printf("Dealer's starting hand: face DOWN card is %s%n", hand.getLast()); // this should be removed
         player.printCardsInCurrentHand();
 
         if (player.getHand().getFirst().getRank().equals(player.getHand().getLast().getRank())) {

@@ -19,14 +19,13 @@ public class Player extends GameParticipant {
         winRecord = this.name.endsWith("s") ? new StringBuilder(this.name + "' win record: ") : new StringBuilder(this.name + "'s win record: ");
         splitHands = new ArrayList<>();
     }
-
     public String getName() {
         return name;
     }
 
     public void splitStartingHand() {
         System.out.println("You want to split the deck - you have 2 hands");
-//        splitHands.getFirst().add(hand.getFirst());
+//        splitHands.getFirst().add(hand.getFirst()); this causes runtime error
 //        splitHands.getFirst().add(hand.getLast());
 //        System.out.println(splitHands);
     } // implementation required
