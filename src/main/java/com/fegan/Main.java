@@ -13,6 +13,37 @@ public class Main {
         Game match1 = new Game(sam, dealer1);
         match1.playGame(new Scanner(System.in));
 
+        // for the following manual tests to work, comment out dealer.shuffleCardDeck(); in playGame(method)
+
+//        // manual print testing for player getting two Aces in starting hand and splitting but losing as dealer has natural blackjack
+//        Player test = new Player("Test player");
+//        List<Card> testDeck = new ArrayList<>();
+//        testDeck.add(new Card(CardRank.TEN_OF_, CardSuit.CLUBS));
+//        testDeck.add(new Card(CardRank.ACE_OF_, CardSuit.HEARTS));
+//        testDeck.add(new Card(CardRank.ACE_OF_, CardSuit.SPADES));
+//        testDeck.add(new Card(CardRank.ACE_OF_, CardSuit.CLUBS));
+//        testDeck.add(new Card(CardRank.JACK_OF_, CardSuit.CLUBS));
+//        testDeck.add(new Card(CardRank.SEVEN_OF_, CardSuit.CLUBS));
+//        Deck splittingAcesTest = new Deck(testDeck);
+//        Dealer dealer2 = new Dealer(splittingAcesTest);
+//        Game match2 = new Game(test, dealer2);
+//        match2.playGame(new Scanner(System.in));
+
+//        // manual print testing for player getting two non-aces in starting hand and splitting
+//        Player test = new Player("Test player");
+//        List<Card> testDeck = new ArrayList<>();
+//        testDeck.add(new Card(CardRank.TEN_OF_, CardSuit.CLUBS));
+//        testDeck.add(new Card(CardRank.SIX_OF_, CardSuit.HEARTS));
+//        testDeck.add(new Card(CardRank.THREE_OF_, CardSuit.CLUBS));
+//        testDeck.add(new Card(CardRank.SIX_OF_, CardSuit.CLUBS));
+//        testDeck.add(new Card(CardRank.NINE_OF_, CardSuit.CLUBS));
+//        testDeck.add(new Card(CardRank.FIVE_OF_, CardSuit.CLUBS));
+//        testDeck.add(new Card(CardRank.TEN_OF_, CardSuit.CLUBS));
+//        testDeck.add(new Card(CardRank.FIVE_OF_, CardSuit.CLUBS));
+//        Deck splittingAcesTest = new Deck(testDeck);
+//        Dealer dealer2 = new Dealer(splittingAcesTest);
+//        Game match2 = new Game(test, dealer2);
+//        match2.playGame(new Scanner(System.in));
 
 // manual print testing for dealer and player getting Blackjack in starting hands - should be a tie
 //        Player test = new Player("Test player");

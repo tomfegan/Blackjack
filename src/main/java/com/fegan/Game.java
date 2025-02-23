@@ -2,11 +2,12 @@ package com.fegan;
 
 import com.fegan.participants.Dealer;
 import com.fegan.participants.Player;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Game {
-    private Player player; // should I replace Player player with List<Player> players to allow multiple players?
+    private Player player;
     private Dealer dealer;
     public Game(Player player, Dealer dealer) {
         this.dealer = dealer;
@@ -14,23 +15,33 @@ public class Game {
     }
     public void playGame(Scanner scanner) {
         dealer.shuffleCardDeck();
-        dealer.dealStartingHands(player);
-        player.calculateCurrentHandScoreForPlayer();
-        dealer.calculateCurrentHandScore();
-        if (checkForNaturalBlackJacks()) { // the game ends if the dealer and/or player are dealt natural blackjacks
-            winner();
-        } else {
-            System.out.println(player.getName() + " starting hand score: " + player.getHandScore());
-            player.playerHitOrStand(scanner, dealer);
+        boolean didPlayerSplitHand = dealer.dealStartingHands(player); // dealStartingHands() method asks the player if they want to split hand - if they do, it calls the splitHand() method
+        if (didPlayerSplitHand) {
             System.out.printf("Dealer reveals their hole (face down) card - it is %s%n", dealer.getHand().getLast());
+            dealer.calculateCurrentHandScore();
             dealer.printCardsInCurrentHand();
             dealer.executeDealersPredeterminedHitAndStandRules();
             winner();
+        } else {
+            player.calculateCurrentHandScoreForPlayer(); // this method will ask user how they wish to treat Aces
+            dealer.calculateCurrentHandScore();
+            if (checkForNaturalBlackJacks()) { // the game ends if the dealer and/or player are dealt natural blackjacks
+                winner();
+            } else {
+                System.out.println(player.getName() + " starting hand score: " + player.getHandScore());
+                player.playerHitOrStand(scanner, dealer);
+                System.out.printf("Dealer reveals their hole (face down) card - it is %s%n", dealer.getHand().getLast());
+                dealer.printCardsInCurrentHand();
+                dealer.executeDealersPredeterminedHitAndStandRules();
+                winner();
+            }
         }
         playNewGame(scanner);
     }
     private boolean checkForNaturalBlackJacks() {
-        return player.getHandScore() == 21 || dealer.getHandScore() == 21;
+        // if a player splits and one or both hands scores 21, natural blackjack still wins
+        return (player.getHandScore() == 21 && player.getHand().size() == 2) ||
+                (dealer.getHandScore() == 21 && player.getHand().size() == 2);
     }
     private void winner() {
         // test case 1: player starting hand is Blackjack and dealer is not Blackjack so player wins
@@ -39,13 +50,20 @@ public class Game {
         // test case 4: dealer and/or player starting hands have same rank - split
         // test case 5: dealer dealt ace and treats as 11 but then treats as 1 when next card dealt would make hand bust if ace was 11
 
-        if ((player.getHand().size() == 2) && (player.getHandScore() == 21) && (dealer.getHand().size() == 2) && (dealer.getHandScore() == 21)) {
+        if ( (player.getSplitHands() != null && // this condition checks if player split their starting hand
+                (player.getHand().size() == 2) &&
+                (player.getHandScore() == 21) &&
+                (dealer.getHand().size() == 2) &&
+                (dealer.getHandScore() == 21))) {
+            System.out.printf("The dealer got natural blackjack. While %s scored 21 too, %s split aces so loses to natural blackjack!", player.getName(), player.getName());
+            player.setWinRecord(player.getWinRecord().append("L"));
+        } else if ((player.getHand().size() == 2) && (player.getHandScore() == 21) && (dealer.getHand().size() == 2) && (dealer.getHandScore() == 21)) {
             System.out.println("Push! Dealer and " + player.getName() + " got natural blackjacks!");
             player.setWinRecord(player.getWinRecord().append("D"));
         } else if ((player.getHand().size() == 2) && (player.getHandScore() == 21) && (dealer.getHand().size() == 2) && (dealer.getHandScore() != 21)) {
             System.out.println(player.getName() + " wins with natural blackjack as dealer does not have a natural blackjack !");
             player.setWinRecord(player.getWinRecord().append("W"));
-        } else if ( (dealer.getHand().size() == 2) && (dealer.getHandScore() == 21) && (player.getHand().get(0).getCardValue() + player.getHand().get(1).getCardValue() != 21)) {
+        } else if ((dealer.getHand().size() == 2) && (dealer.getHandScore() == 21) && (player.getHand().get(0).getCardValue() + player.getHand().get(1).getCardValue() != 21)) {
             System.out.println("Dealer wins with natural blackjack as " + player.getName() + " does not have a natural blackjack!");
             player.setWinRecord(player.getWinRecord().append("L"));
         } else if (player.getHandScore() > 21 && dealer.getHandScore() > 21) {
@@ -55,16 +73,16 @@ public class Game {
             System.out.println(player.getName() + " bust, dealer wins!");
             player.setWinRecord(player.getWinRecord().append("L"));
         } else if (player.getHandScore() <= 21 && dealer.getHandScore() > 21) {
-            System.out.println("Dealer Bust, " + player.getName() + " wins!");
+            System.out.println("Dealer Bust, " + player.getName() + " wins with " + player.getHandScore() +"!");
             player.setWinRecord(player.getWinRecord().append("W"));
         } else if (player.getHandScore() == dealer.getHandScore()) {
             System.out.printf("Push! Both %s and dealer scored %d%n", player.getName(), player.getHandScore());
             player.setWinRecord(player.getWinRecord().append("D"));
         } else if (player.getHandScore() <= 21 && player.getHandScore() > dealer.getHandScore()) {
-            System.out.printf("%s wins %d to %d%n",player.getName(), player.getHandScore(), dealer.getHandScore());
+            System.out.printf("%s wins %d to %d%n", player.getName(), player.getHandScore(), dealer.getHandScore());
             player.setWinRecord(player.getWinRecord().append("W"));
         } else if (dealer.getHandScore() <= 21 && player.getHandScore() < dealer.getHandScore()) {
-            System.out.printf("Dealer wins %d to %d%n",dealer.getHandScore(), player.getHandScore());
+            System.out.printf("Dealer wins %d to %d%n", dealer.getHandScore(), player.getHandScore());
             player.setWinRecord(player.getWinRecord().append("L"));
         }
         System.out.println(player.getWinRecord());
@@ -84,7 +102,6 @@ public class Game {
         dealer.setHand(new ArrayList<>());
         dealer.setHandScore(0);
         dealer.getCardDeck().setIndex(0);
-        dealer.shuffleCardDeck();
         System.out.println("Ready for next game!");
     }
 }

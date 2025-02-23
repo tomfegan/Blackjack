@@ -44,7 +44,7 @@ public class Deck {
     public int getIndex() {
         return index;
     }
-    public List<Card> getCardDeck() {
+    public List<Card> getListOfCardsFieldFromDeckClass() {
         return cardDeck;
     }
 }
