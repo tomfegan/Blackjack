@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class Player extends GameParticipant {
     final private String name;
-    private StringBuilder winRecord;
+    private StringBuilder gameResults;
     private List<List<Card>> splitHands;
     public Player() {
         this("John Doe");
@@ -17,7 +17,7 @@ public class Player extends GameParticipant {
     public Player(String name) {
         super();
         this.name = name;
-        winRecord = this.name.endsWith("s") ? new StringBuilder(this.name + "' win record: ") : new StringBuilder(this.name + "'s win record: ");
+        gameResults = this.name.endsWith("s") ? new StringBuilder(this.name + "' win record: ") : new StringBuilder(this.name + "'s win record: ");
         splitHands = new ArrayList<>(2);
     }
     public String getName() {
@@ -137,11 +137,11 @@ public class Player extends GameParticipant {
             return false;
         }
     }
-    public StringBuilder getWinRecord() {
-        return winRecord;
+    public StringBuilder getGameResults() {
+        return gameResults;
     }
-    public void setWinRecord(StringBuilder winRecord) {
-        this.winRecord = winRecord;
+    public void setWinRecord(StringBuilder gameResults) {
+        this.gameResults.append("-").append(gameResults);
     }
     @Override
     public void printCardsInCurrentHand() {

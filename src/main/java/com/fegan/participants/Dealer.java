@@ -68,7 +68,7 @@ public class Dealer extends GameParticipant {
             }
         }
         return didPlayerSplitHand;
-    } // splitHand() method is invoked by this method
+    }
     public void dealNextCardAndAddToHand(GameParticipant participant) {
         Card card = cardDeck.getListOfCardsFieldFromDeckClass().get(cardDeck.getIndex());
         if (participant instanceof Dealer) {

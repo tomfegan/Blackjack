@@ -1,7 +1,7 @@
-<<Rules of this Blackjack game>>
+<Rules of this Blackjack game>
 
 --EXTENDING THE APPLICATION--
-Should I add a cutDeck(int index) method to allow the player to determine where the random deck should be cut?
+Should I add a cutDeck(int index) method to allow the player to determine where the random deck should be cut? Seems unnecessary as shuffle() can be trusted to randomise the deck
 
 --HANDLING ACES DYNAMICALLY--
 -> aces can be counted as both 1 and 11
