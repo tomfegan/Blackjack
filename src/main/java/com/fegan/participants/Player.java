@@ -28,7 +28,7 @@ public class Player extends GameParticipant {
     public int chooseWhereToSplitDeck(Deck gameDeck) {
         int chosenCutPosition = 0;
         Scanner sc = new Scanner(System.in);
-        System.out.printf("Dealer has shuffled the deck. Please enter a number between 1 and %d to cut the deck", 52 * gameDeck.getPacks());
+        System.out.printf("Dealer has shuffled the deck. Please enter a number between 1 and %d to cut the deck%n", 52 * gameDeck.getPacks());
         while (true) {
             try {
                 chosenCutPosition = sc.nextInt();
