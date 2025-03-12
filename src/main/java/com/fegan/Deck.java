@@ -47,4 +47,8 @@ public class Deck {
     public List<Card> getListOfCardsFieldFromDeckClass() {
         return cardDeck;
     }
+
+    public int getPacks() {
+        return packs;
+    }
 }

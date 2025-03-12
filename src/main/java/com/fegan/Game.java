@@ -14,7 +14,8 @@ public class Game {
         this.player = player;
     }
     public void playGame(Scanner scanner) {
-//        dealer.shuffleCardDeck();
+        dealer.shuffleCardDeck();
+        dealer.cutDeck(player.chooseWhereToSplitDeck(dealer.getCardDeck()));
         boolean didPlayerSplitHand = dealer.dealStartingHands(player); // dealStartingHands() method asks the player if they want to split hand - if they do, it calls the splitStartingHand() method
         if (didPlayerSplitHand) {
             System.out.printf("Dealer reveals their hole (face down) card - it is %s%n", dealer.getHand().getLast());

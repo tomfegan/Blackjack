@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Player sam = new Player("Sam");
-        Deck oneCardDeck = new Deck(1);
+        Deck oneCardDeck = new Deck(2);
         Dealer dealer1 = new Dealer(oneCardDeck);
         Game match1 = new Game(sam, dealer1);
         match1.playGame(new Scanner(System.in));

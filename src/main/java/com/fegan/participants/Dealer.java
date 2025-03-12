@@ -46,6 +46,11 @@ public class Dealer extends GameParticipant {
         Collections.shuffle(cardDeck.getListOfCardsFieldFromDeckClass());
         System.out.println("Dealer has shuffled the deck");
     }
+
+    public void cutDeck(int index) {
+        Collections.rotate(cardDeck.getListOfCardsFieldFromDeckClass(), index);
+    }
+
     public boolean dealStartingHands(Player player) {
         int numberOfCardsDealtAtStartToHumanAndDealer = 4;
         for (int i = 0; i < numberOfCardsDealtAtStartToHumanAndDealer; i++) {
