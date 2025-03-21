@@ -134,7 +134,7 @@ public class Main {
 //        Game match2 = new Game(test, dealer2);
 //        match2.playGame(new Scanner(System.in));
 
-// manual print testing for dealer gets Blackjack and player scores 21 with >2 cards - Dealer should win
+//        manual print testing for dealer gets Blackjack and player scores 21 with >2 cards - Dealer should win
 //        Player test = new Player("Test player");
 //        List<Card> testDeck2 = new ArrayList<>();
 //        testDeck2.add(new Card(CardRank.ACE_OF_, CardSuit.CLUBS));
@@ -147,7 +147,7 @@ public class Main {
 //        Game match3 = new Game(test, dealer3);
 //        match3.playGame(new Scanner(System.in));
 
-        // manual print testing for player gets Blackjack and dealer scores 21 with >2 cards - Player should win
+//        manual print testing for player gets Blackjack and dealer scores 21 with >2 cards - Player should win
 //        Player test = new Player("Test player");
 //        List<Card> testDeck3 = new ArrayList<>();
 //        testDeck3.add(new Card(CardRank.ACE_OF_, CardSuit.CLUBS));

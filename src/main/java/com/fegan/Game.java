@@ -20,9 +20,11 @@ public class Game {
         // Print debugging -> delete after unit testing suite added
         System.out.println("Print debugging: deck after dealer shuffle " + dealer.getCardDeck());
 
-        // temporarily commented out so I don't have to enter a number when running the application while I am manually testing
         dealer.cutDeck(player.chooseWhereToSplitDeck(dealer.getCardDeck()));
+
+        // Print debugging -> delete after unit testing suite added
         System.out.println("Print debugging: deck after player cut " + dealer.getCardDeck());
+
         dealer.dealAndRevealStartingHands(player);
 
         // Calculate and set the player's handScore field to check for natural blackjack
@@ -38,11 +40,6 @@ public class Game {
             } else {
                 System.out.println("(6) " + player.getName() + " starting hand score: " + player.getHandScore());
                 // Keep asking player if they want another card
-//                player.playerAsksDealerToHitOrStands(scanner, dealer, player.getHand());
-//                // Set the player's hand score when they "stand"
-////                player.setHandScore(player.calculateScoreForPlayerHand(player.getHand()));
-//                player.setHandScore(player.getHandScore());
-
                 player.setHandScore(player.playerAsksDealerToHitOrStands(scanner, dealer, player.getHand()));
             }
             System.out.printf("(7) Dealer reveals their hole (face down) card - it is %s%n", dealer.getHand().getLast());
@@ -54,7 +51,7 @@ public class Game {
         playNewGame(scanner);
     }
     private boolean doesPlayerOrDealerHaveNaturalBlackJack() {
-        return (player.getHandScore() == 21 && player.getHand().size() == 2 /*&& player.getSplitHands().isEmpty())*/ ||
+        return (player.getHandScore() == 21 && player.getHand().size() == 2 ||
                 (dealer.getHandScore() == 21 && player.getHand().size() == 2));
     }
     private void gameStartMessage(int numOfGames) {

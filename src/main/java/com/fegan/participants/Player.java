@@ -62,9 +62,9 @@ public class Player extends GameParticipant {
         // create ArrayList of ArrayLists
         splitHands.add(new ArrayList<>());
         splitHands.add(new ArrayList<>());
-        // adding the Card at index 0 in hand to ArrayList at index 0
+        // Add the Card at index 0 in hand to ArrayList at index 0
         splitHands.getFirst().add(hand.getFirst());
-        // adding the Card at index 1 in hand to ArrayList at index 1
+        // Add the Card at index 1 in hand to ArrayList at index 1
         splitHands.getLast().add(hand.getLast());
 
         int bestSplitHandValue = 0;
@@ -72,7 +72,7 @@ public class Player extends GameParticipant {
         for (List<Card> splitHand : splitHands) {
             int currentSplitHandValue = 0;
 
-            // check if the hand being split contains Aces as different rules apply to splitting aces than other cards
+            // Check if the hand being split contains Aces as different rules apply to splitting aces than other cards
             if (splitHand.getFirst().getRank().equals(CardRank.ACE_OF_)) {
                 System.out.printf("%s split Aces so the dealer will deal one more card to each hand%n", name);
                 Card card = dealer.getNextCardFromDeck(dealer.getCardDeck());
@@ -88,7 +88,7 @@ public class Player extends GameParticipant {
             }
         }
         System.out.printf("(3) %s split hands = %s%n", name, splitHands);
-        // Set best split hand score to the player's hand score attribute - this will then work with winner() method
+        // Set best split hand score to the player's hand score attribute - this will then work with decideWinner() method
         handScore = bestSplitHandValue;
     }
     private int assignAceValueToOneOrEleven() {
@@ -115,7 +115,7 @@ public class Player extends GameParticipant {
 
         for (Card card : handToHaveScoreCalculated) {
             if (card.getRank().equals(com.fegan.CardRank.ACE_OF_)) {
-                tempHandScore += this.assignAceValueToOneOrEleven(); // this is causing multiple prints
+                tempHandScore += this.assignAceValueToOneOrEleven();
             } else {
                 tempHandScore += card.getCardValue();
             }
@@ -153,9 +153,6 @@ public class Player extends GameParticipant {
             dealer.addCardToHand(card, playerHand);
             System.out.printf("(8) Current hand for %s: %s%n", name, playerHand);
             score = calculateScoreForPlayerHand(playerHand);
-//            printCardsInCurrentHand(playerHand);
-
-//            score = calculateScoreForPlayerHand(playerHand);
             System.out.println(score <= 21 ? "(2) Current score for " + name + " is " +
                     score : "(2) " + name + " went bust with " + score + "!");
             if (score > 21) {
