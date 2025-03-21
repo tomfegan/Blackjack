@@ -13,7 +13,6 @@ public enum CardSuit {
             case HEARTS -> "\u2665";
             case DIAMONDS -> "\u2666";
             case CLUBS -> "\u2663";
-            default -> "No card suit";
         };
 
     }

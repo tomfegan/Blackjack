@@ -4,7 +4,7 @@ import com.fegan.Card;
 import com.fegan.Deck;
 
 import java.util.Collections;
-import java.util.Scanner;
+import java.util.List;
 
 public class Dealer extends GameParticipant {
     private Deck cardDeck;
@@ -15,7 +15,7 @@ public class Dealer extends GameParticipant {
     public Deck getCardDeck() {
         return cardDeck;
     }
-    public void calculateCurrentHandScore() {
+    public void calculateAndSetDealersHandScore()  {
         boolean doesHandContainAce = false;
         handScore = 0;
         int aces = 0;
@@ -31,10 +31,10 @@ public class Dealer extends GameParticipant {
 
         if (handScore > 21 && doesHandContainAce) {
             handScore = handScore - (10 * aces);
-            System.out.printf("The dealer has treated the ace in their hand as 1 - dealer's hand is a 'soft %d'%n", handScore);
+            System.out.printf("The dealer has treated the Ace in their hand as 1 - dealer's hand is a 'soft %d'%n", handScore);
         } else if (doesHandContainAce) {
-            if (hand.size() > 2) { // this stops the ACE being revealed when it is the face down card in the dealer's starting hand
-                System.out.printf("The dealer has treated the ace in their hand as 11 - dealer's hand is a 'soft %d'%n", handScore);
+            if (hand.size() > 2) { // this condition stops the ACE being revealed when it is the face down card in the dealer's starting hand
+                System.out.printf("The dealer has treated the Ace in their hand as 11 - dealer's hand is a 'soft %d'%n", handScore);
             }
         } else {
             if (hand.size() > 2) {
@@ -43,48 +43,35 @@ public class Dealer extends GameParticipant {
         }
     }
     public void shuffleCardDeck() {
-        Collections.shuffle(cardDeck.getListOfCardsFieldFromDeckClass());
+        Collections.shuffle(cardDeck.getListOfCards());
         System.out.println("Dealer has shuffled the deck");
     }
-
     public void cutDeck(int index) {
-        Collections.rotate(cardDeck.getListOfCardsFieldFromDeckClass(), index);
+        Collections.rotate(cardDeck.getListOfCards(), index);
     }
-
-    public boolean dealStartingHands(Player player) {
-        int numberOfCardsDealtAtStartToHumanAndDealer = 4;
+    public void dealAndRevealStartingHands(Player player) {
+        int numberOfCardsDealtAtStartToHumanAndDealer = 4; // refactor: should not hard code this value
         for (int i = 0; i < numberOfCardsDealtAtStartToHumanAndDealer; i++) {
             if (i % 2 == 0) {
-                dealNextCardAndAddToHand(this);
+                addCardToHand(getNextCardFromDeck(cardDeck), hand);
             } else {
-                dealNextCardAndAddToHand(player);
+                addCardToHand(getNextCardFromDeck(cardDeck), player.getHand());
             }
         }
-        System.out.printf("Dealer's starting hand: face UP card is %s%n", hand.getFirst()); // hole card is second card dealt to dealer
-        player.printCardsInCurrentHand();
-        boolean didPlayerSplitHand = false;
-        if (player.getHand().getFirst().getRank().equals(player.getHand().getLast().getRank())) {
-            Scanner sc = new Scanner(System.in);
-            System.out.println("Do you want to split your hand? Press Y to split your hand or any other key to continue with 1 hand");
-            String split = sc.next().toLowerCase().substring(0, 1);
-            if (split.equals("y")) {
-                didPlayerSplitHand = true;
-                player.splitStartingHand(this);
-            }
-        }
-        return didPlayerSplitHand;
+        System.out.printf("(5) Dealer's starting hand: face UP card is %s%n", hand.getFirst()); // hole card is second card dealt to dealer
+        player.printCardsInCurrentHand(player.getHand());
     }
-    public void dealNextCardAndAddToHand(GameParticipant participant) {
-        Card card = cardDeck.getListOfCardsFieldFromDeckClass().get(cardDeck.getIndex());
-        if (participant instanceof Dealer) {
-            hand.add(card);
-        } else if (participant instanceof Player) {
-            participant.getHand().add(card);
-        }
-        cardDeck.setIndex(cardDeck.getIndex() + 1);
+    public Card getNextCardFromDeck(Deck deck) {
+        int index = deck.getIndex();
+        Card nextCard = deck.getListOfCards().get(index);
+        deck.setIndex(index + 1);
+        return nextCard;
+    }
+    public void addCardToHand(Card card, List<Card> hand) {
+        hand.add(card);
     }
     @Override
-    public void printCardsInCurrentHand() {
+    public void printCardsInCurrentHand(List<Card> cards) {
         StringBuilder displayHandAsCommaSeparatedList = new StringBuilder("The dealer's current hand is ");
         for (int i = 0; i < hand.size(); i++) {
             if (i < hand.size() - 2) {
@@ -99,10 +86,12 @@ public class Dealer extends GameParticipant {
     }
     public void executeDealersPredeterminedHitAndStandRules() {
         while (handScore < 17) { // soft 17 rules
-            dealNextCardAndAddToHand(this);
+            Card card = getNextCardFromDeck(cardDeck);
+            addCardToHand(card, hand);
             System.out.println("Dealer drew another card...");
-            printCardsInCurrentHand();
-            calculateCurrentHandScore();
+            printCardsInCurrentHand(hand);
+            calculateAndSetDealersHandScore();
         }
     }
+
 }

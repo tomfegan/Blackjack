@@ -31,8 +31,6 @@ public enum CardRank {
             case JACK_OF_ -> "J";
             case QUEEN_OF_ -> "Q";
             case KING_OF_ -> "K";
-            default -> "No card suit";
         };
-//        return this.name().substring(0,1).concat(this.name().substring(1).toLowerCase()).replace('_',' ');
     }
 }

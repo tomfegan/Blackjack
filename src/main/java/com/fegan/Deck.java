@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Deck {
-    private List<Card> cardDeck = new ArrayList<>();
+    private List<Card> listOfCards = new ArrayList<>();
     private int packs;
     private int index;
     public Deck() {
@@ -18,25 +18,25 @@ public class Deck {
         } else {
             this.packs = packs;
         }
-        cardDeck = generateOrderedCardDeck();
+        listOfCards = generateOrderedCardDeck();
         index = 0;
     }
-    public Deck(List<Card> cardDeck) {
-        this.cardDeck = cardDeck;
+    public Deck(List<Card> listOfCards) {
+        this.listOfCards = listOfCards;
     }
     private List<Card> generateOrderedCardDeck() {
         for (int i = 0; i < packs; i++) {
             for (com.fegan.CardSuit cs : com.fegan.CardSuit.values()) {
                 for (com.fegan.CardRank cr : com.fegan.CardRank.values()) {
-                    cardDeck.add(new Card(cr, cs));
+                    listOfCards.add(new Card(cr, cs));
                 }
             }
         }
-        return cardDeck;
+        return listOfCards;
     }
     @Override
     public String toString() {
-        return String.format("%s", cardDeck);
+        return String.format("%s", listOfCards);
     }
     public void setIndex(int index) {
         this.index = index;
@@ -44,8 +44,8 @@ public class Deck {
     public int getIndex() {
         return index;
     }
-    public List<Card> getListOfCardsFieldFromDeckClass() {
-        return cardDeck;
+    public List<Card> getListOfCards() {
+        return listOfCards;
     }
 
     public int getPacks() {

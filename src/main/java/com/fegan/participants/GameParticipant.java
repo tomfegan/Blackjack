@@ -23,15 +23,7 @@ public abstract class GameParticipant {
     public void setHand(List<Card> hand) {
         this.hand = hand;
     }
-    public abstract void printCardsInCurrentHand();
+    public abstract void printCardsInCurrentHand(List<Card> cards);
 
-//    @Override
-//    public String toString() {
-//        String displayHandAsCommaSeparatedList = "Current hand: ";
-//        for (Card card : hand) {
-//            displayHandAsCommaSeparatedList += card + ", ";
-//        }
-//        System.out.println(displayHandAsCommaSeparatedList);
-//        return displayHandAsCommaSeparatedList;
-//    }
+
 }
