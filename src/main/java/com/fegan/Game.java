@@ -30,13 +30,24 @@ public class Game {
         // Calculate and set the player's handScore field to check for natural blackjack
         player.setHandScore(player.calculateScoreForPlayerHand(player.getHand())); // calculateScoreForPlayerHand() method asks user how they wish to treat Aces and returns the score of the hand passed to it as an argument
 
+        // Print debugging -> delete after unit testing suite added
+        System.out.println("Print debugging: player's starting hand score = " + player.getHandScore());
+
         // Calculate and set the dealer's handScore field to check for natural blackjack
         dealer.calculateAndSetDealersHandScore();
 
         // Check dealer and player do not have natural Blackjacks (as they beat any other hand)
         if (!doesPlayerOrDealerHaveNaturalBlackJack()) {
             if (player.canSplitTheirStartingHand() && player.doTheyWantToSplitTheirStartingHand()) {
+                player.setHandScore(0); // This resets hand score as once the player splits their starting hand, their handscore is no longer the result of the two starting cards. The hand score will be set by the splitStartingHand() method that is subsequently called
+
+                // Print debugging -> delete after unit testing suite added
+                System.out.println("Print debugging: player's starting hand score after deciding to split = " + player.getHandScore());
+
                 player.splitStartingHand(dealer);
+                // Print debugging -> delete after unit testing suite added
+                System.out.println("Print debugging: player's hand score after splitting their starting hand = " + player.getHandScore());
+
             } else {
                 System.out.println("(6) " + player.getName() + " starting hand score: " + player.getHandScore());
                 // Keep asking player if they want another card
@@ -51,7 +62,7 @@ public class Game {
         playNewGame(scanner);
     }
     public boolean doesPlayerOrDealerHaveNaturalBlackJack() {
-        return (player.getHandScore() == 21 && player.getHand().size() == 2 ||
+        return (player.getHandScore() == 21 && player.getHand().size() == 2 && player.getSplitHands().isEmpty() ||
                 (dealer.getHandScore() == 21 && player.getHand().size() == 2));
     }
     private void gameStartMessage(int numOfGames) {
@@ -104,6 +115,7 @@ public class Game {
     private void setUpNewGame() {
         player.getHand().clear();
         player.setHandScore(0);
+        player.getSplitHands().clear();
         dealer.getHand().clear();
         dealer.setHandScore(0);
         dealer.getCardDeck().setIndex(0);

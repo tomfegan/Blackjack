@@ -25,12 +25,12 @@ public class Player extends GameParticipant {
     public int chooseWhereToSplitDeck(Deck gameDeck) {
         int chosenCutPosition = 0;
         Scanner sc = new Scanner(System.in);
-        System.out.printf("Please enter a number between 1 and %d to cut the deck%n", 52 * gameDeck.getPacks());
+        System.out.printf("Please enter a number between 1 and %d to cut the deck, or enter 0 if you do not wish to cut the deck%n", 52 * gameDeck.getPacks());
         while (true) {
             try {
                 chosenCutPosition = sc.nextInt();
-                if (chosenCutPosition < 1 || chosenCutPosition >= 52 * gameDeck.getPacks()) {
-                    System.out.printf("There are %d packs in the deck so you can only cut it between 1 and %d%n", gameDeck.getPacks(), 52 * gameDeck.getPacks());
+                if (chosenCutPosition < 0 || chosenCutPosition >= 52 * gameDeck.getPacks()) {
+                    System.out.printf("There are %d packs in the deck so you can only cut it between 1 and %d - if you do not wish to cut the deck, please enter 0%n", gameDeck.getPacks(), 52 * gameDeck.getPacks());
                     continue;
                 }
                 break;
@@ -78,16 +78,23 @@ public class Player extends GameParticipant {
                 Card card = dealer.getNextCardFromDeck(dealer.getCardDeck());
                 dealer.addCardToHand(card, splitHand);
                 currentSplitHandValue = calculateScoreForPlayerHand(splitHand);
-                System.out.printf("(1) Current hand %s scored %d%n", splitHand, currentSplitHandValue);
+                System.out.printf("Current hand %s scored %d%n", splitHand, currentSplitHandValue);
             } else {
                 System.out.printf("%s split non-ace starting hand%n", name);
                 currentSplitHandValue = playerAsksDealerToHitOrStands(new Scanner(System.in), dealer, splitHand);
             }
-            if (currentSplitHandValue > bestSplitHandValue && currentSplitHandValue <= 21) {
+
+            if (bestSplitHandValue == 0) {
                 bestSplitHandValue = currentSplitHandValue;
+            } else if (bestSplitHandValue > 21 && currentSplitHandValue <= 21) {
+                bestSplitHandValue = currentSplitHandValue;
+            } else if (currentSplitHandValue > 21 && bestSplitHandValue > 21) {
+                if (currentSplitHandValue < bestSplitHandValue) {
+                    bestSplitHandValue = currentSplitHandValue;
+                }
             }
         }
-        System.out.printf("(3) %s split hands = %s%n", name, splitHands);
+        System.out.printf("%s split hands = %s%n", name, splitHands);
         // Set best split hand score to the player's hand score attribute - this will then work with decideWinner() method
         handScore = bestSplitHandValue;
     }
@@ -134,7 +141,7 @@ public class Player extends GameParticipant {
     }
     @Override
     public void printCardsInCurrentHand(List<Card> currentHand)  {
-        StringBuilder displayHandAsCommaSeparatedList = new StringBuilder("(4) Current hand for " + name + ": ");
+        StringBuilder displayHandAsCommaSeparatedList = new StringBuilder("Current hand for " + name + ": ");
         for (int i = 0; i < currentHand.size(); i++) {
             if (i < currentHand.size() - 2) {
                 displayHandAsCommaSeparatedList.append(currentHand.get(i)).append(", ");
@@ -147,14 +154,14 @@ public class Player extends GameParticipant {
         System.out.println(displayHandAsCommaSeparatedList);
     }
     public int playerAsksDealerToHitOrStands(Scanner scanner, Dealer dealer, List<Card> playerHand) {
-        int score = 0;
+        int score = handScore;
         while (doesPlayerWantNextCard(scanner)) {
             Card card = dealer.getNextCardFromDeck(dealer.getCardDeck());
             dealer.addCardToHand(card, playerHand);
-            System.out.printf("(8) Current hand for %s: %s%n", name, playerHand);
+            System.out.printf("Current hand for %s: %s%n", name, playerHand);
             score = calculateScoreForPlayerHand(playerHand);
-            System.out.println(score <= 21 ? "(2) Current score for " + name + " is " +
-                    score : "(2) " + name + " went bust with " + score + "!");
+            System.out.println(score <= 21 ? "Current score for " + name + " is " +
+                    score : name + " went bust with " + score + "!");
             if (score > 21) {
                 break;
             }

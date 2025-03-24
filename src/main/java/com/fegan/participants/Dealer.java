@@ -8,14 +8,17 @@ import java.util.List;
 
 public class Dealer extends GameParticipant {
     private Deck cardDeck;
+
     public Dealer(Deck orderedCardDeck) {
         super();
         cardDeck = orderedCardDeck;
     }
+
     public Deck getCardDeck() {
         return cardDeck;
     }
-    public void calculateAndSetDealersHandScore()  {
+
+    public void calculateAndSetDealersHandScore() {
         boolean doesHandContainAce = false;
         handScore = 0;
         int aces = 0;
@@ -42,13 +45,16 @@ public class Dealer extends GameParticipant {
             }
         }
     }
+
     public void shuffleCardDeck() {
         Collections.shuffle(cardDeck.getListOfCards());
         System.out.println("Dealer has shuffled the deck");
     }
+
     public void cutDeck(int index) {
         Collections.rotate(cardDeck.getListOfCards(), index);
     }
+
     public void dealAndRevealStartingHands(Player player) {
         int numberOfCardsDealtAtStartToHumanAndDealer = 4; // refactor: should not hard code this value
         for (int i = 0; i < numberOfCardsDealtAtStartToHumanAndDealer; i++) {
@@ -61,15 +67,18 @@ public class Dealer extends GameParticipant {
         System.out.printf("(5) Dealer's starting hand: face UP card is %s%n", hand.getFirst()); // hole card is second card dealt to dealer
         player.printCardsInCurrentHand(player.getHand());
     }
+
     public Card getNextCardFromDeck(Deck deck) {
         int index = deck.getIndex();
         Card nextCard = deck.getListOfCards().get(index);
         deck.setIndex(index + 1);
         return nextCard;
     }
+
     public void addCardToHand(Card card, List<Card> hand) {
         hand.add(card);
     }
+
     @Override
     public void printCardsInCurrentHand(List<Card> cards) {
         StringBuilder displayHandAsCommaSeparatedList = new StringBuilder("The dealer's current hand is ");
@@ -84,6 +93,7 @@ public class Dealer extends GameParticipant {
         }
         System.out.println(displayHandAsCommaSeparatedList);
     }
+
     public void executeDealersPredeterminedHitAndStandRules() {
         while (handScore < 17) { // soft 17 rules
             Card card = getNextCardFromDeck(cardDeck);
