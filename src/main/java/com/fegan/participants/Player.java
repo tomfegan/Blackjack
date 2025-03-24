@@ -29,8 +29,10 @@ public class Player extends GameParticipant {
         while (true) {
             try {
                 chosenCutPosition = sc.nextInt();
-                if (chosenCutPosition < 0 || chosenCutPosition >= 52 * gameDeck.getPacks()) {
-                    System.out.printf("There are %d packs in the deck so you can only cut it between 1 and %d - if you do not wish to cut the deck, please enter 0%n", gameDeck.getPacks(), 52 * gameDeck.getPacks());
+                if (chosenCutPosition < 0 || chosenCutPosition > 52 * gameDeck.getPacks()) {
+                    System.out.printf("There are %d packs in the deck so you can only cut it between 1 and %d - " +
+                            "if you do not wish to cut the deck, please enter 0%n",
+                                    gameDeck.getPacks(), 52 * gameDeck.getPacks());
                     continue;
                 }
                 break;
@@ -90,6 +92,10 @@ public class Player extends GameParticipant {
                 bestSplitHandValue = currentSplitHandValue;
             } else if (currentSplitHandValue > 21 && bestSplitHandValue > 21) {
                 if (currentSplitHandValue < bestSplitHandValue) {
+                    bestSplitHandValue = currentSplitHandValue;
+                }
+            } else if (currentSplitHandValue <= 21) {
+                if (currentSplitHandValue > bestSplitHandValue) {
                     bestSplitHandValue = currentSplitHandValue;
                 }
             }

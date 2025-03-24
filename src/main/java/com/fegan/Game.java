@@ -9,10 +9,12 @@ public class Game {
     private Player player;
     private Dealer dealer;
     private int gameNumber = 1;
+
     public Game(Player player, Dealer dealer) {
         this.dealer = dealer;
         this.player = player;
     }
+
     public void playGame(Scanner scanner) {
         gameStartMessage(gameNumber);
         dealer.shuffleCardDeck();
@@ -37,9 +39,9 @@ public class Game {
         dealer.calculateAndSetDealersHandScore();
 
         // Check dealer and player do not have natural Blackjacks (as they beat any other hand)
-        if (!doesPlayerOrDealerHaveNaturalBlackJack()) {
+        if (!doesPlayerHaveNaturalBlackJack() && !doesDealerHaveNaturalBlackJack()) {
             if (player.canSplitTheirStartingHand() && player.doTheyWantToSplitTheirStartingHand()) {
-                player.setHandScore(0); // This resets hand score as once the player splits their starting hand, their handscore is no longer the result of the two starting cards. The hand score will be set by the splitStartingHand() method that is subsequently called
+                player.setHandScore(0); // This resets hand score to zero as once the player splits their starting hand, their handscore is no longer the result of the two starting cards. The hand score will be set by the splitStartingHand() method that is subsequently called
 
                 // Print debugging -> delete after unit testing suite added
                 System.out.println("Print debugging: player's starting hand score after deciding to split = " + player.getHandScore());
@@ -49,11 +51,11 @@ public class Game {
                 System.out.println("Print debugging: player's hand score after splitting their starting hand = " + player.getHandScore());
 
             } else {
-                System.out.println("(6) " + player.getName() + " starting hand score: " + player.getHandScore());
+                System.out.println(player.getName() + " starting hand score: " + player.getHandScore());
                 // Keep asking player if they want another card
                 player.setHandScore(player.playerAsksDealerToHitOrStands(scanner, dealer, player.getHand()));
             }
-            System.out.printf("(7) Dealer reveals their hole (face down) card - it is %s%n", dealer.getHand().getLast());
+            System.out.printf("Dealer reveals their hole (face down) card - it is %s%n", dealer.getHand().getLast());
             dealer.calculateAndSetDealersHandScore();
             dealer.printCardsInCurrentHand(dealer.getHand());
             dealer.executeDealersPredeterminedHitAndStandRules();
@@ -61,9 +63,11 @@ public class Game {
         decideWinner();
         playNewGame(scanner);
     }
-    public boolean doesPlayerOrDealerHaveNaturalBlackJack() {
-        return (player.getHandScore() == 21 && player.getHand().size() == 2 && player.getSplitHands().isEmpty() ||
-                (dealer.getHandScore() == 21 && player.getHand().size() == 2));
+    public boolean doesPlayerHaveNaturalBlackJack() {
+        return player.getHandScore() == 21 && player.getHand().size() == 2 && player.getSplitHands().isEmpty();
+    }
+    public boolean doesDealerHaveNaturalBlackJack() {
+        return dealer.getHandScore() == 21 && dealer.getHand().size() == 2;
     }
     private void gameStartMessage(int numOfGames) {
         if (numOfGames == 1) {
@@ -72,15 +76,16 @@ public class Game {
             System.out.printf("Blackjack - game %d%n", gameNumber);
         }
     }
+
     private void decideWinner() {
-        if ((player.getHand().size() == 2) && (player.getHandScore() == 21) && (dealer.getHand().size() == 2) && (dealer.getHandScore() == 21)) {
+        if (doesPlayerHaveNaturalBlackJack() && doesDealerHaveNaturalBlackJack()) {
             System.out.println("Push! Dealer and " + player.getName() + " got natural blackjacks!");
             player.setWinRecord(new StringBuilder(String.valueOf(GameResult.DRAW)));
-        } else if ((player.getHand().size() == 2) && (player.getHandScore() == 21) && (dealer.getHand().size() == 2) && (dealer.getHandScore() != 21)) {
+        } else if (doesPlayerHaveNaturalBlackJack() && !doesDealerHaveNaturalBlackJack()) {
             System.out.println(player.getName() + " wins with natural blackjack as dealer does not have a natural blackjack!");
             player.setWinRecord(new StringBuilder(String.valueOf(GameResult.WIN)));
-        } else if ((dealer.getHand().size() == 2) && (dealer.getHandScore() == 21) && (player.getHand().get(0).getCardValue() + player.getHand().get(1).getCardValue() != 21)) {
-            System.out.println("1) Dealer wins with natural blackjack as " + player.getName() + " does not have a natural blackjack!");
+        } else if (doesDealerHaveNaturalBlackJack() && !doesPlayerHaveNaturalBlackJack()) {
+            System.out.println("Dealer wins with natural blackjack as " + player.getName() + " does not have a natural blackjack!");
             player.setWinRecord(new StringBuilder(String.valueOf(GameResult.LOSS)));
         } else if (player.getHandScore() > 21 && dealer.getHandScore() > 21) {
             System.out.println("Both bust but dealer wins as per the rules in the README.md file");
@@ -104,6 +109,7 @@ public class Game {
         System.out.println(player.getGameResults());
         System.out.println("----------------");
     }
+
     private void playNewGame(Scanner scanner) {
         System.out.println("Do you want to play another game?");
         String newGame = scanner.next().substring(0, 1).toLowerCase();
@@ -112,6 +118,7 @@ public class Game {
             playGame(scanner);
         }
     }
+
     private void setUpNewGame() {
         player.getHand().clear();
         player.setHandScore(0);

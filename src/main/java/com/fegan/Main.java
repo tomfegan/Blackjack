@@ -25,7 +25,7 @@ public class Main {
         // test case 7: both cards in players starting hand have the same rank (non-Aces)
 
 
-//        manual testing: player splits hand and scores 21 with 3 cards should tie with dealer who gets 21 with 3 or more cards
+//        manual testing: player splits hand: first hand scores 17 and second hand scores 21 with 3 cards -> should tie with dealer who gets 21 with 3 or more cards
 //        Player test = new Player("Test player");
 //        List<Card> testDeck = new ArrayList<>();
 //        testDeck.add(new Card(CardRank.TEN_OF_, CardSuit.CLUBS)); // dealer card 1
@@ -42,7 +42,7 @@ public class Main {
 //        Game match2 = new Game(test, dealer2);
 //        match2.playGame(new Scanner(System.in));
 
-//        manual testing: player splits hand and scores 21 with 2 cards should tie with dealer who gets 21 with 3 or more cards
+//        manual testing: player splits hand: first hand scores 21 with 2 cards -> should tie with dealer who gets 21 with more than 2 cards
 //        Player test = new Player("Test player");
 //        List<Card> testDeck = new ArrayList<>();
 //        testDeck.add(new Card(CardRank.JACK_OF_, CardSuit.CLUBS));

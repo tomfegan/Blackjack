@@ -17,11 +17,11 @@ player's score (see predetermined rules for the dealer)
 -> A hand that does not contain an Ace is called a ‘hard hand’ because the hand has only one possible 
 value e.g., a 10 and 7 is a ‘hard 17’
 -> A hand that contains an Ace is called a ‘soft hand’ because it has two possible values (called a ‘soft total’) 
-e.g., an Ace and 6 hand is a ‘soft 17’
+e.g., an Ace and 6 hand is a ‘soft 17’ and a 'soft 7'
 
 *Player:-
 -> decides whether to hit or stand via the console in this application
--> can stand at any score and does not have to hit till hand score >=17
+-> can stand at any score i.e., they do not have to hit till hand score >=17
 -> can change the value of any aces in their hand to give them the closest score to 21
 
 *Dealer:-
@@ -46,7 +46,7 @@ If you split Aces and a 10/picture card is drawn, while the total is 21, it is n
 --WINNING HANDS--
 If the player goes bust, they lose regardless of whether the dealer goes bust or not.
 
-Player loses if their score is lower than the dealer’s
+Player loses if their score is lower than the dealer’s and the dealer's score is <= 21
 
 If the dealer has a natural blackjack, they immediately beat the player if they do not have natural blackjack.
 
