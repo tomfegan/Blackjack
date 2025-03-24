@@ -8,12 +8,10 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class PlayerTest {
 
     @Test
-    void canSplitTheirStartingHand() {
+    void testWhetherTheCanSplitTheirStartingHandMethodReturnsTrueWhenThePlayerIsDealtCardsOfTheSameRankAndFalseIfNot() {
         // Arrange
         Player testPlayer1 = new Player("Test player 1");
         testPlayer1.setHand(List.of(
@@ -34,6 +32,7 @@ class PlayerTest {
         Assertions.assertTrue(testPlayer1.canSplitTheirStartingHand());
         Assertions.assertFalse(testPlayer2.canSplitTheirStartingHand());
         Assertions.assertFalse(testPlayer3.canSplitTheirStartingHand());
+
     }
 
 

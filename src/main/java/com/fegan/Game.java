@@ -50,7 +50,7 @@ public class Game {
         decideWinner();
         playNewGame(scanner);
     }
-    private boolean doesPlayerOrDealerHaveNaturalBlackJack() {
+    public boolean doesPlayerOrDealerHaveNaturalBlackJack() {
         return (player.getHandScore() == 21 && player.getHand().size() == 2 ||
                 (dealer.getHandScore() == 21 && player.getHand().size() == 2));
     }
