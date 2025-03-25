@@ -64,7 +64,7 @@ public class Dealer extends GameParticipant {
                 addCardToHand(getNextCardFromDeck(cardDeck), player.getHand());
             }
         }
-        System.out.printf("(5) Dealer's starting hand: face UP card is %s%n", hand.getFirst()); // hole card is second card dealt to dealer
+        System.out.printf("Dealer's starting hand: face UP card is %s%n", hand.getFirst()); // hole card is second card dealt to dealer
         player.printCardsInCurrentHand(player.getHand());
     }
 

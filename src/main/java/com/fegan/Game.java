@@ -15,7 +15,7 @@ public class Game {
         this.player = player;
     }
 
-    public void playGame(Scanner scanner) {
+    public void playGame() {
         gameStartMessage(gameNumber);
         dealer.shuffleCardDeck();
 
@@ -53,7 +53,7 @@ public class Game {
             } else {
                 System.out.println(player.getName() + " starting hand score: " + player.getHandScore());
                 // Keep asking player if they want another card
-                player.setHandScore(player.playerAsksDealerToHitOrStands(scanner, dealer, player.getHand()));
+                player.setHandScore(player.playerAsksDealerToHitOrStands(dealer, player.getHand()));
             }
             System.out.printf("Dealer reveals their hole (face down) card - it is %s%n", dealer.getHand().getLast());
             dealer.calculateAndSetDealersHandScore();
@@ -61,12 +61,12 @@ public class Game {
             dealer.executeDealersPredeterminedHitAndStandRules();
         }
         decideWinner();
-        playNewGame(scanner);
+        playNewGame(new Scanner(System.in));
     }
-    public boolean doesPlayerHaveNaturalBlackJack() {
+    private boolean doesPlayerHaveNaturalBlackJack() {
         return player.getHandScore() == 21 && player.getHand().size() == 2 && player.getSplitHands().isEmpty();
     }
-    public boolean doesDealerHaveNaturalBlackJack() {
+    private boolean doesDealerHaveNaturalBlackJack() {
         return dealer.getHandScore() == 21 && dealer.getHand().size() == 2;
     }
     private void gameStartMessage(int numOfGames) {
@@ -77,48 +77,55 @@ public class Game {
         }
     }
 
-    private void decideWinner() {
+    public void decideWinner() {
+        String resultMessage = "";
         if (doesPlayerHaveNaturalBlackJack() && doesDealerHaveNaturalBlackJack()) {
-            System.out.println("Push! Dealer and " + player.getName() + " got natural blackjacks!");
-            player.setWinRecord(new StringBuilder(String.valueOf(GameResult.DRAW)));
+            resultMessage = "Push! Dealer and " + player.getName() + " got natural blackjacks.";
+            player.updateWinRecord(GameResult.DRAW);
         } else if (doesPlayerHaveNaturalBlackJack() && !doesDealerHaveNaturalBlackJack()) {
-            System.out.println(player.getName() + " wins with natural blackjack as dealer does not have a natural blackjack!");
-            player.setWinRecord(new StringBuilder(String.valueOf(GameResult.WIN)));
+            resultMessage = player.getName() + " wins with natural blackjack as dealer does not have a natural blackjack.";
+            player.updateWinRecord(GameResult.WIN);
         } else if (doesDealerHaveNaturalBlackJack() && !doesPlayerHaveNaturalBlackJack()) {
-            System.out.println("Dealer wins with natural blackjack as " + player.getName() + " does not have a natural blackjack!");
-            player.setWinRecord(new StringBuilder(String.valueOf(GameResult.LOSS)));
+            resultMessage = "Dealer wins with natural blackjack as " + player.getName() + " does not have a natural blackjack.";
+            player.updateWinRecord(GameResult.LOSS);
         } else if (player.getHandScore() > 21 && dealer.getHandScore() > 21) {
-            System.out.println("Both bust but dealer wins as per the rules in the README.md file");
-            player.setWinRecord(new StringBuilder(String.valueOf(GameResult.LOSS)));
+            resultMessage = "Both bust but dealer wins as per the rules in the README.md file.";
+            player.updateWinRecord(GameResult.LOSS);
         } else if (player.getHandScore() > 21 && dealer.getHandScore() <= 21) {
-            System.out.println(player.getName() + " bust, dealer wins with " + dealer.getHandScore());
-            player.setWinRecord(new StringBuilder(String.valueOf(GameResult.LOSS)));
+            resultMessage = player.getName() + " bust, dealer wins with " + dealer.getHandScore() + ".";
+            player.updateWinRecord(GameResult.LOSS);
         } else if (player.getHandScore() <= 21 && dealer.getHandScore() > 21) {
-            System.out.println("Dealer Bust, " + player.getName() + " wins with " + player.getHandScore() + "!");
-            player.setWinRecord(new StringBuilder(String.valueOf(GameResult.WIN)));
+            resultMessage = "Dealer Bust, " + player.getName() + " wins with " + player.getHandScore() + ".";
+            player.updateWinRecord(GameResult.WIN);
         } else if (player.getHandScore() == dealer.getHandScore()) {
-            System.out.printf("Push! Both %s and dealer scored %d%n", player.getName(), player.getHandScore());
-            player.setWinRecord(new StringBuilder(String.valueOf(GameResult.DRAW)));
+            resultMessage = "Push! Both %s and dealer scored %d.%n".formatted(player.getName(), player.getHandScore());
+            player.updateWinRecord(GameResult.DRAW);
         } else if (player.getHandScore() <= 21 && player.getHandScore() > dealer.getHandScore()) {
-            System.out.printf("%s wins %d to %d%n", player.getName(), player.getHandScore(), dealer.getHandScore());
-            player.setWinRecord(new StringBuilder(String.valueOf(GameResult.WIN)));
+            resultMessage = "%s wins %d to %d.%n".formatted(player.getName(), player.getHandScore(), dealer.getHandScore());
+            player.updateWinRecord(GameResult.WIN);
         } else if (dealer.getHandScore() <= 21 && player.getHandScore() < dealer.getHandScore()) {
-            System.out.printf("Dealer wins %d to %d%n", dealer.getHandScore(), player.getHandScore());
-            player.setWinRecord(new StringBuilder(String.valueOf(GameResult.LOSS)));
+            resultMessage = "Dealer wins %d to %d.%n".formatted(dealer.getHandScore(), player.getHandScore());
+            player.updateWinRecord(GameResult.LOSS);
         }
+        System.out.println(resultMessage);
         System.out.println(player.getGameResults());
-        System.out.println("----------------");
-    }
+        System.out.println("""
+                  *
+                  *
+                  *
+               *  *  *
+                * * *
+                  *""");
 
+    }
     private void playNewGame(Scanner scanner) {
         System.out.println("Do you want to play another game?");
         String newGame = scanner.next().substring(0, 1).toLowerCase();
         if (newGame.equals("y")) {
             setUpNewGame();
-            playGame(scanner);
+            playGame();
         }
     }
-
     private void setUpNewGame() {
         player.getHand().clear();
         player.setHandScore(0);

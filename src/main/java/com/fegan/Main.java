@@ -7,22 +7,15 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Player sam = new Player("Sam");
+        Scanner scanner = new Scanner(System.in);
+        Player sam = new Player("Sam", scanner);
         Deck oneCardDeck = new Deck(2);
         Dealer dealer1 = new Dealer(oneCardDeck);
         Game match1 = new Game(sam, dealer1);
-        match1.playGame(new Scanner(System.in));
+        match1.playGame();
 
         // for the following manual tests to work, comment out dealer.shuffleCardDeck(); in playGame(method)
 
-
-        // test case 1: player starting hand is Blackjack and dealer is not Blackjack so player wins
-        // test case 2: player and dealer starting hands are Blackjack so tie
-        // test case 3: dealer starting hand is Blackjack and player is not Blackjack - even if score is 21 - so dealer wins
-        // test case 4: player starting hand has same rank - split
-        // test case 5: dealer dealt ace and treats as 11 but then treats as 1 if next card would make hand bust
-        // test case 6: both cards in players starting hand have the same rank (Aces)
-        // test case 7: both cards in players starting hand have the same rank (non-Aces)
 
 
 //        manual testing: player splits hand: first hand scores 17 and second hand scores 21 with 3 cards -> should tie with dealer who gets 21 with 3 or more cards

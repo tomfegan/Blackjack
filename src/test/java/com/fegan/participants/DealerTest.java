@@ -73,10 +73,10 @@ class DealerTest {
     Dealer testDealer1 = new Dealer(testDeck);
 
     @Test
-    void TestGetNextCardFromDeckRetriesTheNextCardInTheDeckAndIncrementsIndex() {
+    void testGetNextCardFromDeckRetriesTheNextCardInTheDeckAndIncrementsIndex() {
         // Arrange (see @BeforeAll)
 
-        // Assert and Act
+        // Act and Assert
         Assertions.assertEquals(new Card(CardRank.ACE_OF_, CardSuit.CLUBS).toString(), testDealer1.getNextCardFromDeck(testDeck).toString());
         Assertions.assertEquals(1, testDeck.getIndex());
 
@@ -94,14 +94,13 @@ class DealerTest {
         Card firstTestCardToAddToPassedCardList = new Card(CardRank.FIVE_OF_, CardSuit.HEARTS);
         Card secondTestCardToAddToPassedCardList = new Card(CardRank.FIVE_OF_, CardSuit.HEARTS);
 
-        // Assert and Act on side effects of this void method
+        // Act and Assert on side effects of this void method
         testDealer1.addCardToHand(firstTestCardToAddToPassedCardList, emptyTestHand);
-
         Assertions.assertEquals(firstTestCardToAddToPassedCardList, emptyTestHand.getFirst());
         Assertions.assertEquals(1, emptyTestHand.size());
 
+        // Act and Assert on side effects of this void method
         testDealer1.addCardToHand(secondTestCardToAddToPassedCardList, emptyTestHand);
-
         Assertions.assertEquals(firstTestCardToAddToPassedCardList, emptyTestHand.get(0));
         Assertions.assertEquals(secondTestCardToAddToPassedCardList, emptyTestHand.get(1));
         Assertions.assertEquals(2, emptyTestHand.size());

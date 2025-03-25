@@ -3,6 +3,7 @@ package com.fegan.participants;
 import com.fegan.Card;
 import com.fegan.CardRank;
 import com.fegan.Deck;
+import com.fegan.GameResult;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -13,26 +14,34 @@ public class Player extends GameParticipant {
     final private String name;
     private StringBuilder gameResults;
     private List<List<Card>> splitHands;
+    private Scanner sc;
+
     public Player() {
-        this("John Doe");
+        this("John Doe", new Scanner(System.in));
     }
+
     public Player(String name) {
+        this(name, new Scanner(System.in));
+    }
+
+    public Player(String name, Scanner sc) {
         super();
         this.name = name;
         gameResults = this.name.endsWith("s") ? new StringBuilder(this.name + "' win record:") : new StringBuilder(this.name + "'s win record:");
         splitHands = new ArrayList<>(2);
+        this.sc = sc;
     }
-    public int chooseWhereToSplitDeck(Deck gameDeck) {
+
+    /*being tested*/public int chooseWhereToSplitDeck(Deck gameDeck) {
         int chosenCutPosition = 0;
-        Scanner sc = new Scanner(System.in);
         System.out.printf("Please enter a number between 1 and %d to cut the deck, or enter 0 if you do not wish to cut the deck%n", 52 * gameDeck.getPacks());
         while (true) {
             try {
                 chosenCutPosition = sc.nextInt();
                 if (chosenCutPosition < 0 || chosenCutPosition > 52 * gameDeck.getPacks()) {
                     System.out.printf("There are %d packs in the deck so you can only cut it between 1 and %d - " +
-                            "if you do not wish to cut the deck, please enter 0%n",
-                                    gameDeck.getPacks(), 52 * gameDeck.getPacks());
+                                    "if you do not wish to cut the deck, please enter 0%n",
+                            gameDeck.getPacks(), 52 * gameDeck.getPacks());
                     continue;
                 }
                 break;
@@ -43,14 +52,18 @@ public class Player extends GameParticipant {
         }
         return (52 * gameDeck.getPacks()) - chosenCutPosition;
     }
+
+
+    /*tested*/
     public boolean canSplitTheirStartingHand() {
         boolean canPlayerSplitHand = hand.getFirst().getRank().equals(hand.getLast().getRank());
         System.out.println(canPlayerSplitHand ? "%s can split starting hand".formatted(name) :
                 "%s cannot split starting hand".formatted(name));
         return canPlayerSplitHand;
     }
+
+    /*tested*/
     public boolean doTheyWantToSplitTheirStartingHand() {
-        Scanner sc = new Scanner(System.in);
         System.out.println("Do you want to split your hand? Press Y to split your hand or any other key to continue with 1 hand");
         String playerChoice = sc.next().toLowerCase().substring(0, 1);
         if (playerChoice.equals("y")) {
@@ -60,6 +73,8 @@ public class Player extends GameParticipant {
         }
         return playerChoice.equals("y");
     }
+
+
     public void splitStartingHand(Dealer dealer) {
         // create ArrayList of ArrayLists
         splitHands.add(new ArrayList<>());
@@ -74,7 +89,7 @@ public class Player extends GameParticipant {
         for (List<Card> splitHand : splitHands) {
             int currentSplitHandValue = 0;
 
-            // Check if the hand being split contains Aces as different rules apply to splitting aces than other cards
+            // Check if the hand being split contains Aces as different rules apply to splitting Aces than other cards
             if (splitHand.getFirst().getRank().equals(CardRank.ACE_OF_)) {
                 System.out.printf("%s split Aces so the dealer will deal one more card to each hand%n", name);
                 Card card = dealer.getNextCardFromDeck(dealer.getCardDeck());
@@ -83,7 +98,7 @@ public class Player extends GameParticipant {
                 System.out.printf("Current hand %s scored %d%n", splitHand, currentSplitHandValue);
             } else {
                 System.out.printf("%s split non-ace starting hand%n", name);
-                currentSplitHandValue = playerAsksDealerToHitOrStands(new Scanner(System.in), dealer, splitHand);
+                currentSplitHandValue = playerAsksDealerToHitOrStands(dealer, splitHand);
             }
 
             if (bestSplitHandValue == 0) {
@@ -104,10 +119,9 @@ public class Player extends GameParticipant {
         // Set best split hand score to the player's hand score attribute - this will then work with decideWinner() method
         handScore = bestSplitHandValue;
     }
+
     private int assignAceValueToOneOrEleven() {
         int dynamicAceValue = 0;
-        Scanner sc = new Scanner(System.in);
-
         while (true) {
             try {
                 System.out.println("Do you want to treat the Ace as 1 or 11?");
@@ -123,6 +137,7 @@ public class Player extends GameParticipant {
         }
         return dynamicAceValue;
     }
+
     public int calculateScoreForPlayerHand(List<Card> handToHaveScoreCalculated) {
         int tempHandScore = 0;
 
@@ -135,9 +150,10 @@ public class Player extends GameParticipant {
         }
         return tempHandScore;
     }
-    public boolean doesPlayerWantNextCard(Scanner scanner) {
+
+    /*tested*/public boolean doesPlayerWantNextCard() {
         System.out.println("Enter H if you want dealer to give you another card (hit) or any key to stand (not take another card)");
-        if (scanner.next().substring(0, 1).toLowerCase().trim().equals("h")) {
+        if (sc.next().substring(0, 1).toLowerCase().trim().equals("h")) {
             System.out.printf("%s asked for another card%n", name);
             return true;
         } else {
@@ -145,8 +161,9 @@ public class Player extends GameParticipant {
             return false;
         }
     }
+
     @Override
-    public void printCardsInCurrentHand(List<Card> currentHand)  {
+    public void printCardsInCurrentHand(List<Card> currentHand) {
         StringBuilder displayHandAsCommaSeparatedList = new StringBuilder("Current hand for " + name + ": ");
         for (int i = 0; i < currentHand.size(); i++) {
             if (i < currentHand.size() - 2) {
@@ -159,9 +176,9 @@ public class Player extends GameParticipant {
         }
         System.out.println(displayHandAsCommaSeparatedList);
     }
-    public int playerAsksDealerToHitOrStands(Scanner scanner, Dealer dealer, List<Card> playerHand) {
+    public int playerAsksDealerToHitOrStands(Dealer dealer, List<Card> playerHand) {
         int score = handScore;
-        while (doesPlayerWantNextCard(scanner)) {
+        while (doesPlayerWantNextCard()) {
             Card card = dealer.getNextCardFromDeck(dealer.getCardDeck());
             dealer.addCardToHand(card, playerHand);
             System.out.printf("Current hand for %s: %s%n", name, playerHand);
@@ -174,6 +191,7 @@ public class Player extends GameParticipant {
         }
         return score;
     }
+
     // getters
     public String getName() {
         return name;
@@ -185,7 +203,18 @@ public class Player extends GameParticipant {
         return splitHands;
     }
     // setters
-    public void setWinRecord(StringBuilder gameResults) {
-        this.gameResults.append("-").append(gameResults);
+    /*tested*/public void updateWinRecord(GameResult gameResult) {
+        if (gameResult == null) {
+            throw new IllegalArgumentException("You can only pass a GameResult enum to the updateWinRecord() method");
+        } else {
+            this.gameResults.append("-").append(gameResult);
+        }
+    }
+    public void setGameResults(StringBuilder gameResults) {
+        this.gameResults = gameResults;
+    }
+
+    public void setSplitHands(List<List<Card>> splitHands) {
+        this.splitHands = splitHands;
     }
 }
