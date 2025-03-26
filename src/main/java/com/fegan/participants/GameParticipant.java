@@ -24,6 +24,4 @@ public abstract class GameParticipant {
         this.hand = hand;
     }
     public abstract void printCardsInCurrentHand(List<Card> cards);
-
-
 }

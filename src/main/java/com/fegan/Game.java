@@ -77,7 +77,7 @@ public class Game {
         }
     }
 
-    public void decideWinner() {
+    /*testing underway*/public void decideWinner() {
         String resultMessage = "";
         if (doesPlayerHaveNaturalBlackJack() && doesDealerHaveNaturalBlackJack()) {
             resultMessage = "Push! Dealer and " + player.getName() + " got natural blackjacks.";

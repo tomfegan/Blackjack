@@ -1,13 +1,12 @@
 package com.fegan.participants;
 
-import com.fegan.Card;
-import com.fegan.CardRank;
-import com.fegan.CardSuit;
-import com.fegan.GameResult;
+import com.fegan.*;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -15,7 +14,8 @@ import static org.mockito.Mockito.when;
 
 class PlayerTest {
 
-    @Test // method being tested = canSplitTheirStartingHand()
+    @Test
+    @DisplayName("method being tested = canSplitTheirStartingHand()")
     void testWhetherTheCanSplitTheirStartingHandMethodReturnsTrueWhenThePlayerIsDealtCardsOfTheSameRankAndFalseIfNot() {
         // Arrange
         Player testPlayer1 = new Player("Test player 1", new Scanner(System.in));
@@ -37,10 +37,9 @@ class PlayerTest {
         Assertions.assertTrue(testPlayer1.canSplitTheirStartingHand());
         Assertions.assertFalse(testPlayer2.canSplitTheirStartingHand());
         Assertions.assertFalse(testPlayer3.canSplitTheirStartingHand());
-
     }
-
-    @Test // method being tested = doesPlayerWantNextCard()
+    @Test
+    @DisplayName("method being tested = doesPlayerWantNextCard()")
     void testMethodReturnsTrueWhenPlayerEntersHWhenAskedIfTheyWantNextCard() {
         // Arrange
         Scanner mockScanner = Mockito.mock(Scanner.class);
@@ -68,12 +67,14 @@ class PlayerTest {
         Assertions.assertTrue(testPlayer4.doesPlayerWantNextCard(), "Expect true if user enters hhhhhhhhHHHH");
     }
 
-    @Test // method being tested = doesPlayerWantNextCard()
-    void testThatMethodReturnsFalseWhenPlayerDoesNotEntersHWhenAskedIfTheyWantNextCard() {
+    @Test
+    @DisplayName("method being tested = doesPlayerWantNextCard()")
+    void testThatMethodReturnsFalseWhenPlayerDoesNotEnterHWhenAskedIfTheyWantNextCard() {
         // Arrange
         Scanner mockScanner = Mockito.mock(Scanner.class);
         Player testPlayer5 = new Player("Test player 5", mockScanner);
         // Act and Assert
+
         // First mock input and test
         when(mockScanner.next()).thenReturn("-1");
         Assertions.assertFalse(testPlayer5.doesPlayerWantNextCard(), "Expect false if user enters -1");
@@ -90,14 +91,15 @@ class PlayerTest {
         when(mockScanner.next()).thenReturn("@");
         Assertions.assertFalse(testPlayer5.doesPlayerWantNextCard(), "Expect false if user enters @");
     }
-
-    @Test // method under test = DoTheyWantToSplitTheirStartingHand()
+    @Test
+    @DisplayName("method under test = DoTheyWantToSplitTheirStartingHand()")
     void testThatMethodReturnsTrueWhenPlayerEntersYWhenAskedDoTheyWantToSplitTheirStartingHand() {
         // Arrange
         Scanner mockScanner = Mockito.mock(Scanner.class);
         Player testPlayer6 = new Player("Test player 6", mockScanner);
 
         // Act and Assert
+
         // First mock input and test
         when(mockScanner.next()).thenReturn("YES");
         Assertions.assertTrue(testPlayer6.doTheyWantToSplitTheirStartingHand(), "Expect true if user enters YES");
@@ -119,7 +121,8 @@ class PlayerTest {
         Assertions.assertTrue(testPlayer6.doTheyWantToSplitTheirStartingHand(), "Expect true if user enters yes");
     }
 
-    @Test // method under test = DoTheyWantToSplitTheirStartingHand()
+    @Test
+    @DisplayName("method under test = DoTheyWantToSplitTheirStartingHand()")
     void testThatMethodReturnsFalseWhenPlayerDoesNotEnterYWhenAskedDoTheyWantToSplitTheirStartingHand() {
         // Arrange
         Scanner mockScanner = Mockito.mock(Scanner.class);
@@ -142,8 +145,8 @@ class PlayerTest {
         when(mockScanner.next()).thenReturn("null");
         Assertions.assertFalse(testPlayer7.doTheyWantToSplitTheirStartingHand(), "Expect false if user enters null");
     }
-
-    @Test // method being tested = updateWinRecord()
+    @Test
+    @DisplayName("method being tested = updateWinRecord()")
     void testThatTheUpdateWinRecordMethodAppendsThePassedGameResultToThePlayersGameResults() {
         // Arrange
         Player testPlayer8 = new Player("Test player 8");
@@ -164,6 +167,125 @@ class PlayerTest {
             testPlayer8.updateWinRecord(null);
             throw new IllegalArgumentException(exceptionMessage);
         });
+    }
+    @Test
+    @DisplayName("method being tested = chooseWhereToSplitDeck()")
+    void testThatTheChooseWhereToSplitDeckMethodReturnsAPositiveIntegerBetweenZeroAndTheNumberOfCardsInTheDeck() {
+        // Arrange
+        Scanner mockScanner9 = Mockito.mock(Scanner.class);
+        Player testPlayer9 = new Player("Test player 9", mockScanner9);
 
+        List<Card> gameCardList9 = List.of(
+                new Card(CardRank.ACE_OF_, CardSuit.CLUBS),
+                new Card(CardRank.TWO_OF_, CardSuit.CLUBS),
+                new Card(CardRank.THREE_OF_, CardSuit.CLUBS),
+                new Card(CardRank.FOUR_OF_, CardSuit.CLUBS),
+                new Card(CardRank.FIVE_OF_, CardSuit.CLUBS),
+                new Card(CardRank.SEVEN_OF_, CardSuit.CLUBS),
+                new Card(CardRank.EIGHT_OF_, CardSuit.CLUBS),
+                new Card(CardRank.SIX_OF_, CardSuit.SPADES),
+                new Card(CardRank.SEVEN_OF_, CardSuit.SPADES),
+                new Card(CardRank.EIGHT_OF_, CardSuit.SPADES),
+                new Card(CardRank.NINE_OF_, CardSuit.SPADES),
+                new Card(CardRank.TEN_OF_, CardSuit.SPADES),
+                new Card(CardRank.JACK_OF_, CardSuit.SPADES),
+                new Card(CardRank.QUEEN_OF_, CardSuit.SPADES),
+                new Card(CardRank.KING_OF_, CardSuit.SPADES),
+                new Card(CardRank.TEN_OF_, CardSuit.HEARTS),
+                new Card(CardRank.JACK_OF_, CardSuit.HEARTS),
+                new Card(CardRank.QUEEN_OF_, CardSuit.HEARTS),
+                new Card(CardRank.QUEEN_OF_, CardSuit.DIAMONDS),
+                new Card(CardRank.KING_OF_, CardSuit.DIAMONDS)
+        );
+        Deck testGameDeck9 = new Deck(gameCardList9);
+
+        // Act and Assert
+
+        // First mock input and test
+        when(mockScanner9.nextInt()).thenReturn(2);
+        Assertions.assertEquals(18, testPlayer9.chooseWhereToSplitDeck(testGameDeck9));
+        // Second mock input and test
+        when(mockScanner9.nextInt()).thenReturn(0);
+        Assertions.assertEquals(20, testPlayer9.chooseWhereToSplitDeck(testGameDeck9));
+        // Third mock input and test
+        when(mockScanner9.nextInt()).thenReturn(-1).thenReturn(1);
+        Assertions.assertEquals(19, testPlayer9.chooseWhereToSplitDeck(testGameDeck9));
+        // Fourth mock input and test
+        when(mockScanner9.nextInt()).thenReturn(21).thenReturn(1);
+        Assertions.assertEquals(19, testPlayer9.chooseWhereToSplitDeck(testGameDeck9));
+        // Fifth mock input and test
+        when(mockScanner9.nextInt())
+                .thenThrow(new InputMismatchException()) // Simulates player entering a string to nextInt()
+                .thenReturn(-1)
+                .thenReturn(21)
+                .thenReturn(5);
+        Assertions.assertEquals(15, testPlayer9.chooseWhereToSplitDeck(testGameDeck9));
+    }
+    @Test
+    @DisplayName("method being tested = assignAceValueToOneOrEleven()")
+    void testThatTheAssignAceValueToOneOrElevenReturnsAnIntValueOfOneOrEleven() {
+        // Arrange
+        Scanner mockScanner10 = Mockito.mock(Scanner.class);
+        Player testPlayer10 = new Player("Test player 10", mockScanner10);
+
+        // Act and Assert 1
+        when(mockScanner10.nextInt()).thenReturn(11);
+        Assertions.assertEquals(11, testPlayer10.assignAceValueToOneOrEleven());
+        // Act and Assert 2
+        when(mockScanner10.nextInt()).thenReturn(1);
+        Assertions.assertEquals(1, testPlayer10.assignAceValueToOneOrEleven());
+        // Act and Assert 3
+        when(mockScanner10.nextInt()).thenReturn(2).thenReturn(11);
+        Assertions.assertEquals(11, testPlayer10.assignAceValueToOneOrEleven());
+        // Act and Assert 4
+        when(mockScanner10.nextInt()).thenReturn(-1).thenReturn(1);
+        Assertions.assertEquals(1, testPlayer10.assignAceValueToOneOrEleven());
+        // Act and Assert 5
+        when(mockScanner10.nextInt()).thenReturn(111).thenReturn(11);
+        Assertions.assertEquals(11, testPlayer10.assignAceValueToOneOrEleven());
+        // Act and Assert 6
+        when(mockScanner10.nextInt())
+                .thenThrow(new InputMismatchException("This simulates test player 10 entering a non-integer value"))
+                .thenReturn(11);
+        Assertions.assertEquals(11, testPlayer10.assignAceValueToOneOrEleven());
+    }
+    @Test
+    @DisplayName("method being tested = calculateScoreForPlayerHand()")
+    void testThatTheCalculateScoreForPlayerHandMethodReturnsTheCorrectHandScore() {
+        // Arrange
+        Scanner mockScanner11To13 = Mockito.mock(Scanner.class);
+
+        Player testPlayer11 = new Player("Test player 11", mockScanner11To13);
+        testPlayer11.setHand(List.of(
+                new Card(CardRank.ACE_OF_, CardSuit.DIAMONDS),
+                new Card(CardRank.EIGHT_OF_, CardSuit.CLUBS)
+        ));
+        Player testPlayer12 = new Player("Test player 12", mockScanner11To13);
+        testPlayer12.setHand(List.of(
+                new Card(CardRank.TWO_OF_, CardSuit.DIAMONDS),
+                new Card(CardRank.TEN_OF_, CardSuit.CLUBS),
+                new Card(CardRank.FIVE_OF_, CardSuit.HEARTS)
+        ));
+        Player testPlayer13 = new Player("Test player 13", mockScanner11To13);
+        testPlayer13.setHand(List.of(
+                new Card(CardRank.TEN_OF_, CardSuit.DIAMONDS),
+                new Card(CardRank.JACK_OF_, CardSuit.DIAMONDS),
+                new Card(CardRank.TWO_OF_, CardSuit.DIAMONDS),
+                new Card(CardRank.ACE_OF_, CardSuit.CLUBS),
+                new Card(CardRank.FIVE_OF_, CardSuit.HEARTS)
+        ));
+        // Act and Assert 1 - hand contains Ace
+        when(mockScanner11To13.nextInt()).thenReturn(11);
+        Assertions.assertEquals(19,
+                testPlayer11.calculateScoreForPlayerHand(testPlayer11.getHand()));
+
+        // Act and Assert 2 - hand does not contain Aces
+        Assertions.assertEquals(17,
+                testPlayer12.calculateScoreForPlayerHand(testPlayer12.getHand()));
+
+        // Act and Assert 3 - hand contains 1 Ace (treated as 1) and hand score exceeds 21
+        when(mockScanner11To13.nextInt()).thenReturn(1);
+        Assertions.assertEquals(28,
+                testPlayer13.calculateScoreForPlayerHand(testPlayer13.getHand()));
     }
 }

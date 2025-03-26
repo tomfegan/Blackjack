@@ -3,6 +3,7 @@ package com.fegan;
 import com.fegan.participants.Dealer;
 import com.fegan.participants.Player;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -15,78 +16,70 @@ class GameTest {
     List<Card> gameCardList = List.of(
             new Card(CardRank.ACE_OF_, CardSuit.CLUBS),
             new Card(CardRank.TWO_OF_, CardSuit.CLUBS),
-            new Card(CardRank.THREE_OF_,CardSuit.CLUBS),
-            new Card(CardRank.FOUR_OF_,CardSuit.CLUBS),
-            new Card(CardRank.FIVE_OF_,CardSuit.CLUBS),
-            new Card(CardRank.SIX_OF_,CardSuit.CLUBS),
-            new Card(CardRank.SEVEN_OF_,CardSuit.CLUBS),
-            new Card(CardRank.EIGHT_OF_,CardSuit.CLUBS),
-            new Card(CardRank.NINE_OF_,CardSuit.CLUBS),
-            new Card(CardRank.TEN_OF_,CardSuit.CLUBS),
-            new Card(CardRank.JACK_OF_,CardSuit.CLUBS),
-            new Card(CardRank.QUEEN_OF_,CardSuit.CLUBS),
-            new Card(CardRank.KING_OF_,CardSuit.CLUBS),
+            new Card(CardRank.THREE_OF_, CardSuit.CLUBS),
+            new Card(CardRank.FOUR_OF_, CardSuit.CLUBS),
+            new Card(CardRank.FIVE_OF_, CardSuit.CLUBS),
+            new Card(CardRank.SIX_OF_, CardSuit.CLUBS),
+            new Card(CardRank.SEVEN_OF_, CardSuit.CLUBS),
+            new Card(CardRank.EIGHT_OF_, CardSuit.CLUBS),
+            new Card(CardRank.NINE_OF_, CardSuit.CLUBS),
+            new Card(CardRank.TEN_OF_, CardSuit.CLUBS),
+            new Card(CardRank.JACK_OF_, CardSuit.CLUBS),
+            new Card(CardRank.QUEEN_OF_, CardSuit.CLUBS),
+            new Card(CardRank.KING_OF_, CardSuit.CLUBS),
 
             new Card(CardRank.ACE_OF_, CardSuit.SPADES),
             new Card(CardRank.TWO_OF_, CardSuit.SPADES),
-            new Card(CardRank.THREE_OF_,CardSuit.SPADES),
-            new Card(CardRank.FOUR_OF_,CardSuit.SPADES),
-            new Card(CardRank.FIVE_OF_,CardSuit.SPADES),
-            new Card(CardRank.SIX_OF_,CardSuit.SPADES),
-            new Card(CardRank.SEVEN_OF_,CardSuit.SPADES),
-            new Card(CardRank.EIGHT_OF_,CardSuit.SPADES),
-            new Card(CardRank.NINE_OF_,CardSuit.SPADES),
-            new Card(CardRank.TEN_OF_,CardSuit.SPADES),
-            new Card(CardRank.JACK_OF_,CardSuit.SPADES),
-            new Card(CardRank.QUEEN_OF_,CardSuit.SPADES),
-            new Card(CardRank.KING_OF_,CardSuit.SPADES),
+            new Card(CardRank.THREE_OF_, CardSuit.SPADES),
+            new Card(CardRank.FOUR_OF_, CardSuit.SPADES),
+            new Card(CardRank.FIVE_OF_, CardSuit.SPADES),
+            new Card(CardRank.SIX_OF_, CardSuit.SPADES),
+            new Card(CardRank.SEVEN_OF_, CardSuit.SPADES),
+            new Card(CardRank.EIGHT_OF_, CardSuit.SPADES),
+            new Card(CardRank.NINE_OF_, CardSuit.SPADES),
+            new Card(CardRank.TEN_OF_, CardSuit.SPADES),
+            new Card(CardRank.JACK_OF_, CardSuit.SPADES),
+            new Card(CardRank.QUEEN_OF_, CardSuit.SPADES),
+            new Card(CardRank.KING_OF_, CardSuit.SPADES),
 
             new Card(CardRank.ACE_OF_, CardSuit.HEARTS),
             new Card(CardRank.TWO_OF_, CardSuit.HEARTS),
-            new Card(CardRank.THREE_OF_,CardSuit.HEARTS),
-            new Card(CardRank.FOUR_OF_,CardSuit.HEARTS),
-            new Card(CardRank.FIVE_OF_,CardSuit.HEARTS),
-            new Card(CardRank.SIX_OF_,CardSuit.HEARTS),
-            new Card(CardRank.SEVEN_OF_,CardSuit.HEARTS),
-            new Card(CardRank.EIGHT_OF_,CardSuit.HEARTS),
-            new Card(CardRank.NINE_OF_,CardSuit.HEARTS),
-            new Card(CardRank.TEN_OF_,CardSuit.HEARTS),
-            new Card(CardRank.JACK_OF_,CardSuit.HEARTS),
-            new Card(CardRank.QUEEN_OF_,CardSuit.HEARTS),
-            new Card(CardRank.KING_OF_,CardSuit.HEARTS),
+            new Card(CardRank.THREE_OF_, CardSuit.HEARTS),
+            new Card(CardRank.FOUR_OF_, CardSuit.HEARTS),
+            new Card(CardRank.FIVE_OF_, CardSuit.HEARTS),
+            new Card(CardRank.SIX_OF_, CardSuit.HEARTS),
+            new Card(CardRank.SEVEN_OF_, CardSuit.HEARTS),
+            new Card(CardRank.EIGHT_OF_, CardSuit.HEARTS),
+            new Card(CardRank.NINE_OF_, CardSuit.HEARTS),
+            new Card(CardRank.TEN_OF_, CardSuit.HEARTS),
+            new Card(CardRank.JACK_OF_, CardSuit.HEARTS),
+            new Card(CardRank.QUEEN_OF_, CardSuit.HEARTS),
+            new Card(CardRank.KING_OF_, CardSuit.HEARTS),
 
             new Card(CardRank.ACE_OF_, CardSuit.DIAMONDS),
             new Card(CardRank.TWO_OF_, CardSuit.DIAMONDS),
-            new Card(CardRank.THREE_OF_,CardSuit.DIAMONDS),
-            new Card(CardRank.FOUR_OF_,CardSuit.DIAMONDS),
-            new Card(CardRank.FIVE_OF_,CardSuit.DIAMONDS),
-            new Card(CardRank.SIX_OF_,CardSuit.DIAMONDS),
-            new Card(CardRank.SEVEN_OF_,CardSuit.DIAMONDS),
-            new Card(CardRank.EIGHT_OF_,CardSuit.DIAMONDS),
-            new Card(CardRank.NINE_OF_,CardSuit.DIAMONDS),
-            new Card(CardRank.TEN_OF_,CardSuit.DIAMONDS),
-            new Card(CardRank.JACK_OF_,CardSuit.DIAMONDS),
-            new Card(CardRank.QUEEN_OF_,CardSuit.DIAMONDS),
-            new Card(CardRank.KING_OF_,CardSuit.DIAMONDS)
+            new Card(CardRank.THREE_OF_, CardSuit.DIAMONDS),
+            new Card(CardRank.FOUR_OF_, CardSuit.DIAMONDS),
+            new Card(CardRank.FIVE_OF_, CardSuit.DIAMONDS),
+            new Card(CardRank.SIX_OF_, CardSuit.DIAMONDS),
+            new Card(CardRank.SEVEN_OF_, CardSuit.DIAMONDS),
+            new Card(CardRank.EIGHT_OF_, CardSuit.DIAMONDS),
+            new Card(CardRank.NINE_OF_, CardSuit.DIAMONDS),
+            new Card(CardRank.TEN_OF_, CardSuit.DIAMONDS),
+            new Card(CardRank.JACK_OF_, CardSuit.DIAMONDS),
+            new Card(CardRank.QUEEN_OF_, CardSuit.DIAMONDS),
+            new Card(CardRank.KING_OF_, CardSuit.DIAMONDS)
     );
     Deck testGameDeck = new Deck(gameCardList);
     Dealer testGameDealer = new Dealer(testGameDeck);
     Player testGamePlayer = new Player("Test game player", new Scanner(System.in));
-
-
-
-
-
     // test case 3: dealer starting hand is Blackjack and player is not Blackjack - even if score is 21 - so dealer wins
     // test case 4: player starting hand has same rank - split
     // test case 5: dealer dealt ace and treats as 11 but then treats as 1 if next card would make hand bust
     // test case 6: both cards in players starting hand have the same rank (Aces)
     // test case 7: both cards in players starting hand have the same rank (non-Aces)
-
-
-
-
-    @Test // method being tested = decideWinner()
+    @Test
+    @DisplayName("method being tested = decideWinner()")
     void checkThatTheDecideWinnerMethodCorrectlyDeterminesDealerAndPlayerDrawWhenTheyBothHaveNaturalBlackjacks() {
         // Arrange - capturing print to console while testing this method
         Player testPlayer1 = new Player("Test player 1", new Scanner(System.in));
@@ -122,8 +115,8 @@ class GameTest {
             System.setOut(originalSystemOut);
         }
     }
-
-    @Test // method being tested = decideWinner()
+    @Test
+    @DisplayName("method being tested = decideWinner()")
     void checkThatTheDecideWinnerMethodCorrectlyDeterminesDealerWinsWhenTheyGetNaturalBlackjackAndPlayerSplitsHandAndScores21WithTwoCards() {
         // Arrange - capturing print to console while testing this method
         Player testPlayer2 = new Player("Test player 2", new Scanner(System.in));
@@ -163,7 +156,8 @@ class GameTest {
             System.setOut(originalSystemOut2);
         }
     }
-    @Test // method being tested = decideWinner()
+    @Test
+    @DisplayName("method being tested = decideWinner()")
     void checkThatTheDecideWinnerMethodCorrectlyDeterminesPlayerWinsWhenTheyHaveNaturalBlackjackAndDealerDoesNot() {
         // Arrange - capturing print to console while testing this method
         Player testPlayer3 = new Player("Test player 3", new Scanner(System.in));
@@ -199,7 +193,8 @@ class GameTest {
             System.setOut(originalSystemOut3);
         }
     }
-    @Test // method being tested = decideWinner()
+    @Test
+    @DisplayName("method being tested = decideWinner()")
     void checkThatTheDecideWinnerMethodCorrectlyDeterminesDealerWinsWhenTheyGetNaturalBlackjackAndPlayerScores21WithMoreThanTwoCards() {
         // Arrange - capturing print to console while testing this method
         Player testPlayer4 = new Player("Test player 4", new Scanner(System.in));

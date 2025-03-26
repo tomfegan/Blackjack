@@ -5,6 +5,7 @@ import com.fegan.CardRank;
 import com.fegan.CardSuit;
 import com.fegan.Deck;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -73,6 +74,7 @@ class DealerTest {
     Dealer testDealer1 = new Dealer(testDeck);
 
     @Test
+    @DisplayName("method being tested = getNextCardFromDeck()")
     void testGetNextCardFromDeckRetriesTheNextCardInTheDeckAndIncrementsIndex() {
         // Arrange (see @BeforeAll)
 
@@ -88,6 +90,7 @@ class DealerTest {
     }
 
     @Test
+    @DisplayName("method being tested = addCardToHand()")
     void testWhetherTheAddCardToHandMethodAddsThePassedCardToThePassedHand() {
         // Arrange
         List<Card> emptyTestHand = new ArrayList<>();
@@ -107,5 +110,86 @@ class DealerTest {
 
         // Edge case - what if the passed Card is null?
         // Refactor - could @BeforeEach improve this test?
+    }
+
+
+    @Test
+    @DisplayName("method being tested = calculateAndSetDealersHandScore()")
+    void testThatTheCalculateAndSetDealersHandScoreMethodCorrectlyUpdatesTheDealersHandScoreWhenHandContainsAnAceAndTreatingItAsElevenWouldMakeHandBust() {
+        // Arrange
+        Dealer testDealer2 = new Dealer(testDeck);
+        testDealer2.setHand(List.of(
+                new Card(CardRank.ACE_OF_, CardSuit.HEARTS),
+                new Card(CardRank.FIVE_OF_, CardSuit.HEARTS),
+                new Card(CardRank.SIX_OF_, CardSuit.HEARTS),
+                new Card(CardRank.NINE_OF_, CardSuit.HEARTS)
+        ));
+        // Act
+        testDealer2.calculateAndSetDealersHandScore();
+        //Assert
+        Assertions.assertEquals(21, testDealer2.getHandScore());
+    }
+    @Test
+    @DisplayName("method being tested = calculateAndSetDealersHandScore()")
+    void testThatTheCalculateAndSetDealersHandScoreMethodCorrectlyUpdatesTheDealersHandScoreWhenHandContainsAcesAndTreatingThemAsElevenWouldMakeHandBust() {
+        // Arrange
+        Dealer testDealer3 = new Dealer(testDeck);
+        testDealer3.setHand(List.of(
+                new Card(CardRank.ACE_OF_, CardSuit.DIAMONDS),
+                new Card(CardRank.FIVE_OF_, CardSuit.CLUBS),
+                new Card(CardRank.FOUR_OF_, CardSuit.HEARTS),
+                new Card(CardRank.NINE_OF_, CardSuit.HEARTS),
+                new Card(CardRank.ACE_OF_, CardSuit.SPADES)
+        ));
+        // Act
+        testDealer3.calculateAndSetDealersHandScore();
+        //Assert
+        Assertions.assertEquals(20, testDealer3.getHandScore());
+    }
+    @Test
+    @DisplayName("method being tested = calculateAndSetDealersHandScore()")
+    void testThatTheCalculateAndSetDealersHandScoreMethodCorrectlyUpdatesTheDealersHandScoreWhenHandContainsAnAceAndScoreIsLessThan22WhenTreatingItAsEleven() {
+        // Arrange
+        Dealer testDealer4 = new Dealer(testDeck);
+        testDealer4.setHand(List.of(
+                new Card(CardRank.ACE_OF_, CardSuit.HEARTS),
+                new Card(CardRank.TWO_OF_, CardSuit.HEARTS),
+                new Card(CardRank.THREE_OF_, CardSuit.HEARTS)
+        ));
+        // Act
+        testDealer4.calculateAndSetDealersHandScore();
+        //Assert
+        Assertions.assertEquals(16, testDealer4.getHandScore());
+    }
+    @Test
+    @DisplayName("method being tested = calculateAndSetDealersHandScore()")
+    void testThatTheCalculateAndSetDealersHandScoreMethodCorrectlyUpdatesTheDealersHandScoreWhenHandDoesNotContainAces() {
+        // Arrange
+        Dealer testDealer5 = new Dealer(testDeck);
+        testDealer5.setHand(List.of(
+                new Card(CardRank.KING_OF_, CardSuit.DIAMONDS),
+                new Card(CardRank.TWO_OF_, CardSuit.CLUBS),
+                new Card(CardRank.THREE_OF_, CardSuit.HEARTS),
+                new Card(CardRank.THREE_OF_, CardSuit.SPADES)
+        ));
+        // Act
+        testDealer5.calculateAndSetDealersHandScore();
+        //Assert
+        Assertions.assertEquals(18, testDealer5.getHandScore());
+    }
+    @Test
+    @DisplayName("method being tested = calculateAndSetDealersHandScore()")
+    void testThatTheCalculateAndSetDealersHandScoreMethodCorrectlyUpdatesTheDealersHandScoreWhenHandDoesNotContainAcesAndScoreIsGreaterThan21() {
+        // Arrange
+        Dealer testDealer5 = new Dealer(testDeck);
+        testDealer5.setHand(List.of(
+                new Card(CardRank.KING_OF_, CardSuit.DIAMONDS),
+                new Card(CardRank.SEVEN_OF_, CardSuit.CLUBS),
+                new Card(CardRank.EIGHT_OF_, CardSuit.HEARTS)
+        ));
+        // Act
+        testDealer5.calculateAndSetDealersHandScore();
+        //Assert
+        Assertions.assertEquals(25, testDealer5.getHandScore());
     }
 }

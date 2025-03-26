@@ -18,7 +18,7 @@ public class Dealer extends GameParticipant {
         return cardDeck;
     }
 
-    public void calculateAndSetDealersHandScore() {
+    /*tested*/public void calculateAndSetDealersHandScore() {
         boolean doesHandContainAce = false;
         handScore = 0;
         int aces = 0;
@@ -45,7 +45,6 @@ public class Dealer extends GameParticipant {
             }
         }
     }
-
     public void shuffleCardDeck() {
         Collections.shuffle(cardDeck.getListOfCards());
         System.out.println("Dealer has shuffled the deck");
