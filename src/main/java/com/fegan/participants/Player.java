@@ -52,10 +52,14 @@ public class Player extends GameParticipant {
         return gameDeck.getListOfCards().size() - chosenCutPosition;
     }
     /*tested*/public boolean canSplitTheirStartingHand() {
-        boolean canPlayerSplitHand = hand.getFirst().getRank().equals(hand.getLast().getRank());
-        System.out.println(canPlayerSplitHand ? "%s can split starting hand".formatted(name) :
-                "%s cannot split starting hand".formatted(name));
-        return canPlayerSplitHand;
+        if (hand.size() == 2) {
+            boolean canPlayerSplitHand = hand.getFirst().getRank().equals(hand.getLast().getRank());
+            System.out.println(canPlayerSplitHand ? "%s can split starting hand".formatted(name) :
+                    "%s cannot split starting hand".formatted(name));
+            return canPlayerSplitHand;
+        } else {
+            return false;
+        }
     }
     /*tested*/public boolean doTheyWantToSplitTheirStartingHand() {
         System.out.println("Do you want to split your hand? Press Y to split your hand or any other key to continue with 1 hand");
@@ -68,14 +72,18 @@ public class Player extends GameParticipant {
         return playerChoice.equals("y");
     }
 
-    public void splitStartingHand() {
-        // create ArrayList of ArrayLists
-        splitHands.add(new ArrayList<>());
-        splitHands.add(new ArrayList<>());
-        // Add the Card at index 0 in hand to ArrayList at index 0
-        splitHands.getFirst().add(hand.getFirst());
-        // Add the Card at index 1 in hand to ArrayList at index 1
-        splitHands.getLast().add(hand.getLast());
+    /*tested*/public void splitStartingHand() {
+        if (canSplitTheirStartingHand()) {
+            // create ArrayList of ArrayLists
+            splitHands.add(new ArrayList<>());
+            splitHands.add(new ArrayList<>());
+            // Add the Card at index 0 in hand to ArrayList at index 0
+            splitHands.getFirst().add(hand.getFirst());
+            // Add the Card at index 1 in hand to ArrayList at index 1
+            splitHands.getLast().add(hand.getLast());
+        } else {
+            System.out.println("Did not split hand as both cards were not the same rank, or there were more or less than 2 cards in the hand");
+        }
     }
     public void playSplitHandsAndUpdateHandScoreWithBestHand(Dealer dealer) {
         int bestSplitHandValue = 0;

@@ -18,26 +18,41 @@ class PlayerTest {
     @DisplayName("method being tested = canSplitTheirStartingHand()")
     void testWhetherTheCanSplitTheirStartingHandMethodReturnsTrueWhenThePlayerIsDealtCardsOfTheSameRankAndFalseIfNot() {
         // Arrange
-        Player testPlayer1 = new Player("Test player 1", new Scanner(System.in));
+        Player testPlayer1 = new Player("Test player 1");
         testPlayer1.setHand(List.of(
                 new Card(CardRank.ACE_OF_, CardSuit.DIAMONDS),
                 new Card(CardRank.ACE_OF_, CardSuit.CLUBS)
         ));
-        Player testPlayer2 = new Player("Test player 2", new Scanner(System.in));
+        Player testPlayer2 = new Player("Test player 2");
         testPlayer2.setHand(List.of(
                 new Card(CardRank.TWO_OF_, CardSuit.DIAMONDS),
                 new Card(CardRank.ACE_OF_, CardSuit.CLUBS)
         ));
-        Player testPlayer3 = new Player("Test player 3", new Scanner(System.in));
+        Player testPlayer3 = new Player("Test player 3");
         testPlayer3.setHand(List.of(
                 new Card(CardRank.TEN_OF_, CardSuit.DIAMONDS),
+                new Card(CardRank.JACK_OF_, CardSuit.DIAMONDS)
+        ));
+        Player testPlayer4 = new Player("Test player 4");
+        testPlayer4.setHand(List.of(
+                new Card(CardRank.TEN_OF_, CardSuit.DIAMONDS),
+                new Card(CardRank.TEN_OF_, CardSuit.DIAMONDS),
+                new Card(CardRank.TEN_OF_, CardSuit.DIAMONDS)
+        ));
+        Player testPlayer5 = new Player("Test player 5");
+        testPlayer5.setHand(List.of(
                 new Card(CardRank.JACK_OF_, CardSuit.DIAMONDS)
         ));
         // Act and Assert
         Assertions.assertTrue(testPlayer1.canSplitTheirStartingHand());
         Assertions.assertFalse(testPlayer2.canSplitTheirStartingHand());
         Assertions.assertFalse(testPlayer3.canSplitTheirStartingHand());
+        Assertions.assertFalse(testPlayer4.canSplitTheirStartingHand());
+        Assertions.assertFalse(testPlayer5.canSplitTheirStartingHand());
     }
+
+
+
     @Test
     @DisplayName("method being tested = doesPlayerWantNextCard()")
     void testMethodReturnsTrueWhenPlayerEntersHWhenAskedIfTheyWantNextCard() {
@@ -66,7 +81,6 @@ class PlayerTest {
         when(mockScanner.next()).thenReturn("hhhhhhhhHHHH");
         Assertions.assertTrue(testPlayer4.doesPlayerWantNextCard(), "Expect true if user enters hhhhhhhhHHHH");
     }
-
     @Test
     @DisplayName("method being tested = doesPlayerWantNextCard()")
     void testThatMethodReturnsFalseWhenPlayerDoesNotEnterHWhenAskedIfTheyWantNextCard() {
@@ -120,7 +134,6 @@ class PlayerTest {
         when(mockScanner.next()).thenReturn("yes");
         Assertions.assertTrue(testPlayer6.doTheyWantToSplitTheirStartingHand(), "Expect true if user enters yes");
     }
-
     @Test
     @DisplayName("method under test = DoTheyWantToSplitTheirStartingHand()")
     void testThatMethodReturnsFalseWhenPlayerDoesNotEnterYWhenAskedDoTheyWantToSplitTheirStartingHand() {
@@ -287,5 +300,76 @@ class PlayerTest {
         when(mockScanner11To13.nextInt()).thenReturn(1);
         Assertions.assertEquals(28,
                 testPlayer13.calculateScoreForPlayerHand(testPlayer13.getHand()));
+    }
+
+    @Test
+    @DisplayName("(1) method being tested = splitStartingHand()")
+    void testThatTheSplitStartingHandMethodSplitsAPairOfAces() {
+        // Arrange
+        Player testPlayer1 = new Player("Test player 1", new Scanner(System.in));
+        testPlayer1.setHand(List.of(
+                new Card(CardRank.ACE_OF_, CardSuit.DIAMONDS),
+                new Card(CardRank.ACE_OF_, CardSuit.CLUBS)
+        ));
+        // Act
+        testPlayer1.splitStartingHand();
+        // Assert
+        Assertions.assertEquals("[[A♦], [A♣]]", testPlayer1.getSplitHands().toString());
+    }
+    @Test
+    @DisplayName("(2) method being tested = splitStartingHand()")
+    void testThatTheSplitStartingHandMethodSplitsAHandThatHasTwoCardsOfTheSameNonAceRank() {
+        // Arrange
+        Player testPlayer1 = new Player("Test player 1", new Scanner(System.in));
+        testPlayer1.setHand(List.of(
+                new Card(CardRank.FOUR_OF_, CardSuit.DIAMONDS),
+                new Card(CardRank.FOUR_OF_, CardSuit.CLUBS)
+        ));
+        // Act
+        testPlayer1.splitStartingHand();
+        // Assert
+        Assertions.assertEquals("[[4♦], [4♣]]", testPlayer1.getSplitHands().toString());
+    }
+    @Test
+    @DisplayName("(3) method being tested = splitStartingHand()")
+    void testThatTheSplitStartingHandMethodDoesNotSplitAHandThatHasTwoCardsOfDifferentRanks() {
+        // Arrange
+        Player testPlayer1 = new Player("Test player 1", new Scanner(System.in));
+        testPlayer1.setHand(List.of(
+                new Card(CardRank.FIVE_OF_, CardSuit.DIAMONDS),
+                new Card(CardRank.SEVEN_OF_, CardSuit.CLUBS)
+        ));
+        // Act
+        testPlayer1.splitStartingHand();
+        // Assert
+        Assertions.assertEquals("[]", testPlayer1.getSplitHands().toString());
+    }
+    @Test
+    @DisplayName("(4) method being tested = splitStartingHand()")
+    void testThatTheSplitStartingHandMethodDoesNotSplitAHandThatHasLessThanTwoCards() {
+        // Arrange
+        Player testPlayer1 = new Player("Test player 1", new Scanner(System.in));
+        testPlayer1.setHand(List.of(
+                new Card(CardRank.FIVE_OF_, CardSuit.DIAMONDS)
+        ));
+        // Act
+        testPlayer1.splitStartingHand();
+        // Assert
+        Assertions.assertEquals("[]", testPlayer1.getSplitHands().toString());
+    }
+    @Test
+    @DisplayName("(5) method being tested = splitStartingHand()")
+    void testThatTheSplitStartingHandMethodDoesNotSplitAHandThatHasMoreThanTwoCards() {
+        // Arrange
+        Player testPlayer1 = new Player("Test player 1", new Scanner(System.in));
+        testPlayer1.setHand(List.of(
+                new Card(CardRank.FIVE_OF_, CardSuit.DIAMONDS),
+                new Card(CardRank.FIVE_OF_, CardSuit.HEARTS),
+                new Card(CardRank.FIVE_OF_, CardSuit.CLUBS)
+        ));
+        // Act
+        testPlayer1.splitStartingHand();
+        // Assert
+        Assertions.assertEquals("[]", testPlayer1.getSplitHands().toString());
     }
 }

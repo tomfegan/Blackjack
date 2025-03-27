@@ -12,7 +12,7 @@ import java.util.List;
 
 class GameTest {
 
-    List<Card> gameCardList = List.of(
+    private List<Card> gameCardList = List.of(
             new Card(CardRank.ACE_OF_, CardSuit.CLUBS),
             new Card(CardRank.TWO_OF_, CardSuit.CLUBS),
             new Card(CardRank.THREE_OF_, CardSuit.CLUBS),
@@ -69,13 +69,13 @@ class GameTest {
             new Card(CardRank.QUEEN_OF_, CardSuit.DIAMONDS),
             new Card(CardRank.KING_OF_, CardSuit.DIAMONDS)
     );
-    Dealer testDealer = new Dealer(new Deck(gameCardList));
-    Player testPlayer = new Player("Test player");
-    Game testGame = new Game(testPlayer, testDealer);
+    private Dealer testDealer = new Dealer(new Deck(gameCardList));
+    private Player testPlayer = new Player("Test player");
+    private Game testGame = new Game(testPlayer, testDealer);
 
-    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-    PrintStream printStream = new PrintStream(outputStream);
-    PrintStream originalSystemOut = System.out;
+    private ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    private PrintStream printStream = new PrintStream(outputStream);
+    private PrintStream originalSystemOut = System.out;
 
     @Test
     @DisplayName("(1) method being tested = decideResultAndUpdateGameResult()")
