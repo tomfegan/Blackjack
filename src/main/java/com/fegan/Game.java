@@ -79,31 +79,31 @@ public class Game {
 
     /*testing underway*/public void decideWinner() {
         String resultMessage = "";
-        if (doesPlayerHaveNaturalBlackJack() && doesDealerHaveNaturalBlackJack()) {
+        if (doesPlayerHaveNaturalBlackJack() && doesDealerHaveNaturalBlackJack()) { // test (1)
             resultMessage = "Push! Dealer and " + player.getName() + " got natural blackjacks.";
             player.updateWinRecord(GameResult.DRAW);
-        } else if (doesPlayerHaveNaturalBlackJack() && !doesDealerHaveNaturalBlackJack()) {
+        } else if (doesPlayerHaveNaturalBlackJack() && !doesDealerHaveNaturalBlackJack()) { // test (3)
             resultMessage = player.getName() + " wins with natural blackjack as dealer does not have a natural blackjack.";
             player.updateWinRecord(GameResult.WIN);
-        } else if (doesDealerHaveNaturalBlackJack() && !doesPlayerHaveNaturalBlackJack()) {
+        } else if (doesDealerHaveNaturalBlackJack() && !doesPlayerHaveNaturalBlackJack()) { // tests (2), (4)
             resultMessage = "Dealer wins with natural blackjack as " + player.getName() + " does not have a natural blackjack.";
             player.updateWinRecord(GameResult.LOSS);
-        } else if (player.getHandScore() > 21 && dealer.getHandScore() > 21) {
+        } else if (player.getHandScore() > 21 && dealer.getHandScore() > 21) { // test (5)
             resultMessage = "Both bust but dealer wins as per the rules in the README.md file.";
             player.updateWinRecord(GameResult.LOSS);
-        } else if (player.getHandScore() > 21 && dealer.getHandScore() <= 21) {
+        } else if (player.getHandScore() > 21 && dealer.getHandScore() <= 21) { // test (6)
             resultMessage = player.getName() + " bust, dealer wins with " + dealer.getHandScore() + ".";
             player.updateWinRecord(GameResult.LOSS);
-        } else if (player.getHandScore() <= 21 && dealer.getHandScore() > 21) {
+        } else if (player.getHandScore() <= 21 && dealer.getHandScore() > 21) { // test (7)
             resultMessage = "Dealer Bust, " + player.getName() + " wins with " + player.getHandScore() + ".";
             player.updateWinRecord(GameResult.WIN);
-        } else if (player.getHandScore() == dealer.getHandScore()) {
+        } else if (player.getHandScore() == dealer.getHandScore()) { // test (8)
             resultMessage = "Push! Both %s and dealer scored %d.%n".formatted(player.getName(), player.getHandScore());
             player.updateWinRecord(GameResult.DRAW);
-        } else if (player.getHandScore() <= 21 && player.getHandScore() > dealer.getHandScore()) {
+        } else if (player.getHandScore() <= 21 && player.getHandScore() > dealer.getHandScore()) { // test (9)
             resultMessage = "%s wins %d to %d.%n".formatted(player.getName(), player.getHandScore(), dealer.getHandScore());
             player.updateWinRecord(GameResult.WIN);
-        } else if (dealer.getHandScore() <= 21 && player.getHandScore() < dealer.getHandScore()) {
+        } else if (dealer.getHandScore() <= 21 && player.getHandScore() < dealer.getHandScore()) { // test (10)
             resultMessage = "Dealer wins %d to %d.%n".formatted(dealer.getHandScore(), player.getHandScore());
             player.updateWinRecord(GameResult.LOSS);
         }
