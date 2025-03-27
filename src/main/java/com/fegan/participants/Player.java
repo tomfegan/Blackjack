@@ -109,7 +109,7 @@ public class Player extends GameParticipant {
             }
         }
         System.out.printf("%s split hands = %s%n", name, splitHands);
-        // Set best split hand score to the player's hand score attribute - this will then work with decideWinner() method
+        // Set best split hand score to the player's hand score attribute - this will then work with decideResultAndUpdateGameResult() method
         handScore = bestSplitHandValue;
     }
 

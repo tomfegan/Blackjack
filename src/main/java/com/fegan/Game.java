@@ -60,7 +60,7 @@ public class Game {
             dealer.printCardsInCurrentHand(dealer.getHand());
             dealer.executeDealersPredeterminedHitAndStandRules();
         }
-        decideWinner();
+        decideResultAndUpdateGameResult();
         playNewGame(new Scanner(System.in));
     }
     private boolean doesPlayerHaveNaturalBlackJack() {
@@ -77,12 +77,12 @@ public class Game {
         }
     }
 
-    /*testing underway*/public void decideWinner() {
+    /*tested*/public void decideResultAndUpdateGameResult() {
         String resultMessage = "";
         if (doesPlayerHaveNaturalBlackJack() && doesDealerHaveNaturalBlackJack()) { // test (1)
             resultMessage = "Push! Dealer and " + player.getName() + " got natural blackjacks.";
             player.updateWinRecord(GameResult.DRAW);
-        } else if (doesPlayerHaveNaturalBlackJack() && !doesDealerHaveNaturalBlackJack()) { // test (3)
+        } else if (doesPlayerHaveNaturalBlackJack() && !doesDealerHaveNaturalBlackJack()) { // tests (3), (11)
             resultMessage = player.getName() + " wins with natural blackjack as dealer does not have a natural blackjack.";
             player.updateWinRecord(GameResult.WIN);
         } else if (doesDealerHaveNaturalBlackJack() && !doesPlayerHaveNaturalBlackJack()) { // tests (2), (4)
@@ -97,7 +97,7 @@ public class Game {
         } else if (player.getHandScore() <= 21 && dealer.getHandScore() > 21) { // test (7)
             resultMessage = "Dealer Bust, " + player.getName() + " wins with " + player.getHandScore() + ".";
             player.updateWinRecord(GameResult.WIN);
-        } else if (player.getHandScore() == dealer.getHandScore()) { // test (8)
+        } else if (player.getHandScore() == dealer.getHandScore()) { // tests (8), (12)
             resultMessage = "Push! Both %s and dealer scored %d.%n".formatted(player.getName(), player.getHandScore());
             player.updateWinRecord(GameResult.DRAW);
         } else if (player.getHandScore() <= 21 && player.getHandScore() > dealer.getHandScore()) { // test (9)
