@@ -46,7 +46,9 @@ public class Game {
                 // Print debugging -> delete after unit testing suite added
                 System.out.println("Print debugging: player's starting hand score after deciding to split = " + player.getHandScore());
 
-                player.splitStartingHand(dealer);
+//                player.splitStartingHand(dealer);
+                player.splitStartingHand();
+                player.playSplitHandsAndUpdateHandScoreWithBestHand(dealer);
                 // Print debugging -> delete after unit testing suite added
                 System.out.println("Print debugging: player's hand score after splitting their starting hand = " + player.getHandScore());
 

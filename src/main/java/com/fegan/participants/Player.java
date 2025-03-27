@@ -68,7 +68,7 @@ public class Player extends GameParticipant {
         return playerChoice.equals("y");
     }
 
-    public void splitStartingHand(Dealer dealer) {
+    public void splitStartingHand() {
         // create ArrayList of ArrayLists
         splitHands.add(new ArrayList<>());
         splitHands.add(new ArrayList<>());
@@ -76,7 +76,8 @@ public class Player extends GameParticipant {
         splitHands.getFirst().add(hand.getFirst());
         // Add the Card at index 1 in hand to ArrayList at index 1
         splitHands.getLast().add(hand.getLast());
-
+    }
+    public void playSplitHandsAndUpdateHandScoreWithBestHand(Dealer dealer) {
         int bestSplitHandValue = 0;
 
         for (List<Card> splitHand : splitHands) {
