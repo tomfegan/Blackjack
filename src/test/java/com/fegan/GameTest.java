@@ -78,8 +78,8 @@ class GameTest {
     private PrintStream originalSystemOut = System.out;
 
     @Test
-    @DisplayName("(1) method being tested = decideResultAndUpdateGameResult()")
-    void testThatTheDecideResultAndUpdateGameResultMethodCorrectlyDeterminesDealerAndPlayerDrawWhenTheyBothHaveNaturalBlackjacksAndADrawIsAddedToGameResult() {
+    @DisplayName("(1) method being tested = decideResultAndUpdateGameResults()")
+    void testThatTheDecideResultAndUpdateGameResultMethodCorrectlyDeterminesDealerAndPlayerDrawWhenTheyBothHaveNaturalBlackjacksAndADrawIsAddedToGameResultAndUpdateGameResults() {
         // Arrange
         testPlayer.setHand(List.of(
                 new Card(CardRank.ACE_OF_, CardSuit.DIAMONDS),
@@ -98,7 +98,7 @@ class GameTest {
 
         // Act and Assert
         try {
-            testGame.decideResultAndUpdateGameResult();
+            testGame.decideResultAndUpdateGameResults();
             String capturedOutput = outputStream.toString().trim();
             String[] outputsByLine = capturedOutput.split("\n");
             // check result is correct
@@ -114,8 +114,8 @@ class GameTest {
 
 
     @Test
-    @DisplayName("(2) method being tested = decideResultAndUpdateGameResult()")
-    void checkThatTheDecideResultAndUpdateGameResultMethodCorrectlyDeterminesDealerWinsWhenTheyGetNaturalBlackjackAndPlayerSplitsHandAndScores21WithTwoCardsAndsALossToGameResult() {
+    @DisplayName("(2) method being tested = decideResultAndUpdateGameResults()")
+    void checkThatTheDecideResultAndUpdateGameResultMethodCorrectlyDeterminesDealerWinsWhenTheyGetNaturalBlackjackAndPlayerSplitsHandAndScores21WithTwoCardsAndsALossToGameResultAndUpdateGameResults() {
         // Arrange
 
         // Simulate player splitting Aces so splitHands is not empty so that when checking for natural blackjack, it returns false
@@ -141,7 +141,7 @@ class GameTest {
 
         // Act and Assert
         try {
-            testGame.decideResultAndUpdateGameResult();
+            testGame.decideResultAndUpdateGameResults();
             String capturedOutput = outputStream.toString().trim();
             String[] outputsByLine = capturedOutput.split("\n");
             // check result is correct
@@ -157,8 +157,8 @@ class GameTest {
     }
 
     @Test
-    @DisplayName("(3) method being tested = decideResultAndUpdateGameResult()")
-    void checkThatTheDecideResultAndUpdateGameResultMethodCorrectlyDeterminesPlayerWinsWhenTheyHaveNaturalBlackjackAndDealerDoesNotAndAddsAWinToGameResult() {
+    @DisplayName("(3) method being tested = decideResultAndUpdateGameResults()")
+    void checkThatTheDecideResultAndUpdateGameResultMethodCorrectlyDeterminesPlayerWinsWhenTheyHaveNaturalBlackjackAndDealerDoesNotAndAddsAWinToGameResultAndUpdateGameResults() {
         // Arrange
         testPlayer.setHand(List.of(
                 new Card(CardRank.ACE_OF_, CardSuit.DIAMONDS),
@@ -172,7 +172,7 @@ class GameTest {
 
         // Act and Assert
         try {
-            testGame.decideResultAndUpdateGameResult();
+            testGame.decideResultAndUpdateGameResults();
             String capturedOutput = outputStream.toString().trim();
             String[] outputsByLine = capturedOutput.split("\n");
             // check result is correct
@@ -187,8 +187,8 @@ class GameTest {
     }
 
     @Test
-    @DisplayName("(4) method being tested = decideResultAndUpdateGameResult()")
-    void checkThatTheDecideResultAndUpdateGameResultMethodCorrectlyDeterminesDealerWinsWhenTheyGetNaturalBlackjackAndPlayerScores21WithMoreThanTwoCardsAndALossIsAddedToGameResult() {
+    @DisplayName("(4) method being tested = decideResultAndUpdateGameResults()")
+    void checkThatTheDecideResultAndUpdateGameResultMethodCorrectlyDeterminesDealerWinsWhenTheyGetNaturalBlackjackAndPlayerScores21WithMoreThanTwoCardsAndALossIsAddedToGameResultAndUpdateGameResults() {
         // Arrange
         testPlayer.setHand(List.of(
                 new Card(CardRank.ACE_OF_, CardSuit.DIAMONDS),
@@ -207,7 +207,7 @@ class GameTest {
 
         // Act and Assert
         try {
-            testGame.decideResultAndUpdateGameResult();
+            testGame.decideResultAndUpdateGameResults();
             String capturedOutput = outputStream.toString().trim();
             String[] outputsByLine = capturedOutput.split("\n");
             // check result is correct
@@ -222,8 +222,8 @@ class GameTest {
     }
 
     @Test
-    @DisplayName("(5) method being tested = decideResultAndUpdateGameResult()")
-    void checkThatTheDecideResultAndUpdateGameResultMethodCorrectlyDeterminesDealerWinsWhenBothPlayerAndDealerScoreIsGreaterThan21AndAddsALossToGameResult() {
+    @DisplayName("(5) method being tested = decideResultAndUpdateGameResults()")
+    void checkThatTheDecideResultAndUpdateGameResultMethodCorrectlyDeterminesDealerWinsWhenBothPlayerAndDealerScoreIsGreaterThan21AndAddsALossToGameResultAndUpdateGameResults() {
         // Arrange
         testPlayer.setHandScore(22);
         testDealer.setHandScore(28);
@@ -233,7 +233,7 @@ class GameTest {
 
         // Act and Assert
         try {
-            testGame.decideResultAndUpdateGameResult();
+            testGame.decideResultAndUpdateGameResults();
             String capturedOutput = outputStream.toString().trim();
             String[] outputsByLine = capturedOutput.split("\n");
             // check result is correct
@@ -247,8 +247,8 @@ class GameTest {
     }
 
     @Test
-    @DisplayName("(6) method being tested = decideResultAndUpdateGameResult()")
-    void checkThatTheDecideResultAndUpdateGameResultMethodCorrectlyDeterminesDealerWinsWhenPlayerScoreIsGreaterThan21AndDealerScoresLessThan22AndAddsALossToGameResult() {
+    @DisplayName("(6) method being tested = decideResultAndUpdateGameResults()")
+    void checkThatTheDecideResultAndUpdateGameResultMethodCorrectlyDeterminesDealerWinsWhenPlayerScoreIsGreaterThan21AndDealerScoresLessThan22AndAddsALossToGameResultAndUpdateGameResults() {
         // Arrange
         testPlayer.setHandScore(26);
         testDealer.setHandScore(17);
@@ -258,7 +258,7 @@ class GameTest {
 
         // Act and Assert
         try {
-            testGame.decideResultAndUpdateGameResult();
+            testGame.decideResultAndUpdateGameResults();
             String capturedOutput = outputStream.toString().trim();
             String[] outputsByLine = capturedOutput.split("\n");
             // check result is correct
@@ -272,8 +272,8 @@ class GameTest {
     }
 
     @Test
-    @DisplayName("(7) method being tested = decideResultAndUpdateGameResult()")
-    void checkThatTheDecideResultAndUpdateGameResultMethodCorrectlyDeterminesPlayerWinsWhenScoreIsLessThan22AndDealerScoresGreaterThan21AndAddsAWinToGameResult() {
+    @DisplayName("(7) method being tested = decideResultAndUpdateGameResults()")
+    void checkThatTheDecideResultAndUpdateGameResultMethodCorrectlyDeterminesPlayerWinsWhenScoreIsLessThan22AndDealerScoresGreaterThan21AndAddsAWinToGameResultAndUpdateGameResults() {
         // Arrange
         testPlayer.setHandScore(14);
         testDealer.setHandScore(26);
@@ -283,7 +283,7 @@ class GameTest {
 
         // Act and Assert
         try {
-            testGame.decideResultAndUpdateGameResult();
+            testGame.decideResultAndUpdateGameResults();
             String capturedOutput = outputStream.toString().trim();
             String[] outputsByLine = capturedOutput.split("\n");
             // check result is correct
@@ -297,8 +297,8 @@ class GameTest {
     }
 
     @Test
-    @DisplayName("(8) method being tested = decideResultAndUpdateGameResult()")
-    void checkThatTheDecideResultAndUpdateGameResultMethodCorrectlyDeterminesPlayerWinsWhenPlayerAndDealerScoreTheSameAndLessThan22AndAddsADrawToGameResult() {
+    @DisplayName("(8) method being tested = decideResultAndUpdateGameResults()")
+    void checkThatTheDecideResultAndUpdateGameResultMethodCorrectlyDeterminesPlayerWinsWhenPlayerAndDealerScoreTheSameAndLessThan22AndAddsADrawToGameResultAndUpdateGameResults() {
         // Arrange
         testPlayer.setHandScore(18);
         testDealer.setHandScore(18);
@@ -308,7 +308,7 @@ class GameTest {
 
         // Act and Assert
         try {
-            testGame.decideResultAndUpdateGameResult();
+            testGame.decideResultAndUpdateGameResults();
             String capturedOutput = outputStream.toString().trim();
             String[] outputsByLine = capturedOutput.split("\n");
             // check result is correct
@@ -322,8 +322,8 @@ class GameTest {
     }
 
     @Test
-    @DisplayName("(9) method being tested = decideResultAndUpdateGameResult()")
-    void checkThatTheDecideResultAndUpdateGameResultMethodCorrectlyDeterminesPlayerWinsWhenPlayerScoresLessThan22AndMoreThanDealerScoresAndAddsAWinToGameResult() {
+    @DisplayName("(9) method being tested = decideResultAndUpdateGameResults()")
+    void checkThatTheDecideResultAndUpdateGameResultMethodCorrectlyDeterminesPlayerWinsWhenPlayerScoresLessThan22AndMoreThanDealerScoresAndAddsAWinToGameResultAndUpdateGameResults() {
         // Arrange
         testPlayer.setHandScore(19);
 
@@ -334,7 +334,7 @@ class GameTest {
 
         // Act and Assert
         try {
-            testGame.decideResultAndUpdateGameResult();
+            testGame.decideResultAndUpdateGameResults();
             String capturedOutput = outputStream.toString().trim();
             String[] outputsByLine = capturedOutput.split("\n");
             // check result is correct
@@ -348,8 +348,8 @@ class GameTest {
     }
 
     @Test
-    @DisplayName("(10) method being tested = decideResultAndUpdateGameResult()")
-    void checkThatTheDecideResultAndUpdateGameResultMethodCorrectlyDeterminesDealerWinsWhenDealerScoresLessThan22AndMoreThanPlayerScoresAndAddsALossToGameResult() {
+    @DisplayName("(10) method being tested = decideResultAndUpdateGameResults()")
+    void checkThatTheDecideResultAndUpdateGameResultMethodCorrectlyDeterminesDealerWinsWhenDealerScoresLessThan22AndMoreThanPlayerScoresAndAddsALossToGameResultAndUpdateGameResults() {
         // Arrange
         testPlayer.setHandScore(17);
         testDealer.setHandScore(19);
@@ -359,7 +359,7 @@ class GameTest {
 
         // Act and Assert
         try {
-            testGame.decideResultAndUpdateGameResult();
+            testGame.decideResultAndUpdateGameResults();
             String capturedOutput = outputStream.toString().trim();
             String[] outputsByLine = capturedOutput.split("\n");
             // check result is correct
@@ -373,8 +373,8 @@ class GameTest {
     }
 
     @Test
-    @DisplayName("(11) method being tested = decideResultAndUpdateGameResult()")
-    void checkThatTheDecideResultAndUpdateGameResultMethodCorrectlyDeterminesPlayerWinsWhenTheyHaveNaturalBlackjackAndDealerScores21WithMoreThan2CardsAndAddsAWinToGameResult() {
+    @DisplayName("(11) method being tested = decideResultAndUpdateGameResults()")
+    void checkThatTheDecideResultAndUpdateGameResultMethodCorrectlyDeterminesPlayerWinsWhenTheyHaveNaturalBlackjackAndDealerScores21WithMoreThan2CardsAndAddsAWinToGameResultAndUpdateGameResults() {
         // Arrange
         testPlayer.setHand(List.of(
                 new Card(CardRank.ACE_OF_, CardSuit.DIAMONDS),
@@ -394,7 +394,7 @@ class GameTest {
 
         // Act and Assert
         try {
-            testGame.decideResultAndUpdateGameResult();
+            testGame.decideResultAndUpdateGameResults();
             String capturedOutput = outputStream.toString().trim();
             String[] outputsByLine = capturedOutput.split("\n");
             // check result is correct
@@ -409,8 +409,8 @@ class GameTest {
     }
 
     @Test
-    @DisplayName("(12) method being tested = decideResultAndUpdateGameResult()")
-    void checkThatTheDecideResultAndUpdateGameResultMethodCorrectlyDeterminesADrawWhenDealerScores21WithMoreThan2CardsAndPlayerScores21With2CardsAfterSplittingHandAndAddsADrawToGameResult() {
+    @DisplayName("(12) method being tested = decideResultAndUpdateGameResults()")
+    void checkThatTheDecideResultAndUpdateGameResultMethodCorrectlyDeterminesADrawWhenDealerScores21WithMoreThan2CardsAndPlayerScores21With2CardsAfterSplittingHandAndAddsADrawToGameResultAndUpdateGameResults() {
         // Arrange
 
         // Simulate player splitting Aces so splitHands is not empty so that when checking for natural blackjack, it returns false
@@ -437,7 +437,7 @@ class GameTest {
 
         // Act and Assert
         try {
-            testGame.decideResultAndUpdateGameResult();
+            testGame.decideResultAndUpdateGameResults();
             String capturedOutput = outputStream.toString().trim();
             String[] outputsByLine = capturedOutput.split("\n");
             // check result is correct

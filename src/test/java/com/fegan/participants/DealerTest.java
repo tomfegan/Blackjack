@@ -78,7 +78,7 @@ class DealerTest {
     @Test
     @DisplayName("method being tested = getNextCardFromDeck()")
     void testGetNextCardFromDeckRetriesTheNextCardInTheDeckAndIncrementsIndex() {
-        // Arrange (see @BeforeAll)
+        // Arrange (see class fields)
 
         // Act and Assert
         Assertions.assertEquals(new Card(CardRank.ACE_OF_, CardSuit.CLUBS).toString(), testDealer.getNextCardFromDeck(testDeck).toString());

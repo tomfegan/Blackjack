@@ -46,7 +46,6 @@ public class Game {
                 // Print debugging -> delete after unit testing suite added
                 System.out.println("Print debugging: player's starting hand score after deciding to split = " + player.getHandScore());
 
-//                player.splitStartingHand(dealer);
                 player.splitStartingHand();
                 player.playSplitHandsAndUpdateHandScoreWithBestHand(dealer);
                 // Print debugging -> delete after unit testing suite added
@@ -62,7 +61,7 @@ public class Game {
             dealer.printCardsInCurrentHand(dealer.getHand());
             dealer.executeDealersPredeterminedHitAndStandRules();
         }
-        decideResultAndUpdateGameResult();
+        decideResultAndUpdateGameResults();
         playNewGame(new Scanner(System.in));
     }
     private boolean doesPlayerHaveNaturalBlackJack() {
@@ -79,7 +78,7 @@ public class Game {
         }
     }
 
-    /*tested*/public void decideResultAndUpdateGameResult() {
+    /*tested*/public void decideResultAndUpdateGameResults() {
         String resultMessage = "";
         if (doesPlayerHaveNaturalBlackJack() && doesDealerHaveNaturalBlackJack()) { // test (1)
             resultMessage = "Push! Dealer and " + player.getName() + " got natural blackjacks.";

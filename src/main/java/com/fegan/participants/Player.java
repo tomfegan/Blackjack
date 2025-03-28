@@ -18,6 +18,7 @@ public class Player extends GameParticipant {
     public Player() {
         this("John Doe", new Scanner(System.in));
     }
+
     public Player(String name) {
         this(name, new Scanner(System.in));
     }
