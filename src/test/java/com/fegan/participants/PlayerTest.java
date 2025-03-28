@@ -72,7 +72,7 @@ class PlayerTest {
     @DisplayName("(1) method being tested = doesPlayerWantNextCard()")
     void testMethodReturnsTrueWhenPlayerEntersHWhenAskedIfTheyWantNextCard() {
         // Arrange - @ExtendWith(MockitoExtension.class), @Mock, @InjectMocks
-        // Act and Assert
+        // Arrange (cont), Act and Assert
         // First mock input and test
         when(mockScanner.next()).thenReturn("HiT");
         Assertions.assertTrue(testPlayer.doesPlayerWantNextCard(), "Expect true if user enters HiT");
@@ -98,7 +98,7 @@ class PlayerTest {
     @DisplayName("(2) method being tested = doesPlayerWantNextCard()")
     void testThatMethodReturnsFalseWhenPlayerDoesNotEnterHWhenAskedIfTheyWantNextCard() {
         // Arrange - @ExtendWith(MockitoExtension.class), @Mock, @InjectMocks
-        // Act and Assert
+        // Arrange (cont), Act and Assert
 
         // First mock input and test
         when(mockScanner.next()).thenReturn("-1");
@@ -121,7 +121,7 @@ class PlayerTest {
     @DisplayName("(3) method under test = DoTheyWantToSplitTheirStartingHand()")
     void testThatMethodReturnsTrueWhenPlayerEntersYWhenAskedDoTheyWantToSplitTheirStartingHand() {
         // Arrange - @ExtendWith(MockitoExtension.class), @Mock, @InjectMocks
-        // Act and Assert
+        // Arrange (cont), Act and Assert
 
         // First mock input and test
         when(mockScanner.next()).thenReturn("YES");
@@ -148,7 +148,7 @@ class PlayerTest {
     @DisplayName("(4) method under test = DoTheyWantToSplitTheirStartingHand()")
     void testThatMethodReturnsFalseWhenPlayerDoesNotEnterYWhenAskedDoTheyWantToSplitTheirStartingHand() {
         // Arrange - @ExtendWith(MockitoExtension.class), @Mock, @InjectMocks
-        // Act and Assert
+        // Arrange (cont), Act and Assert
         // First mock input and test
         when(mockScanner.next()).thenReturn("ES");
         Assertions.assertFalse(testPlayer.doTheyWantToSplitTheirStartingHand(), "Expect false if user enters ES");
@@ -217,7 +217,7 @@ class PlayerTest {
         );
         Deck testGameDeck9 = new Deck(gameCardList9);
 
-        // Act and Assert
+        // Arrange (cont), Act and Assert
 
         // First mock input and test
         when(mockScanner.nextInt()).thenReturn(2);
@@ -243,26 +243,37 @@ class PlayerTest {
     @Test
     @DisplayName("method being tested = assignAceValueToOneOrEleven()")
     void testThatTheAssignAceValueToOneOrElevenReturnsAnIntValueOfOneOrEleven() {
-        // Arrange - @ExtendWith(MockitoExtension.class), @Mock, @InjectMocks
-        // Act and Assert 1
+        // Arrange 1 - @ExtendWith(MockitoExtension.class), @Mock, @InjectMocks
         when(mockScanner.nextInt()).thenReturn(11);
+        // Act and Assert 1
         Assertions.assertEquals(11, testPlayer.assignAceValueToOneOrEleven());
-        // Act and Assert 2
+
+        // Arrange 2 - @ExtendWith(MockitoExtension.class), @Mock, @InjectMocks
         when(mockScanner.nextInt()).thenReturn(1);
+        // Act and Assert 2
         Assertions.assertEquals(1, testPlayer.assignAceValueToOneOrEleven());
-        // Act and Assert 3
+
+        // Arrange 3 - @ExtendWith(MockitoExtension.class), @Mock, @InjectMocks
         when(mockScanner.nextInt()).thenReturn(2).thenReturn(11);
+        // Act and Assert 3
         Assertions.assertEquals(11, testPlayer.assignAceValueToOneOrEleven());
-        // Act and Assert 4
+
+        // Arrange 4 - @ExtendWith(MockitoExtension.class), @Mock, @InjectMocks
         when(mockScanner.nextInt()).thenReturn(-1).thenReturn(1);
+        // Act and Assert 4
         Assertions.assertEquals(1, testPlayer.assignAceValueToOneOrEleven());
-        // Act and Assert 5
+
+
+        // Arrange 5 - @ExtendWith(MockitoExtension.class), @Mock, @InjectMocks
         when(mockScanner.nextInt()).thenReturn(111).thenReturn(11);
+        // Act and Assert 5
         Assertions.assertEquals(11, testPlayer.assignAceValueToOneOrEleven());
-        // Act and Assert 6
+
+        // Arrange 6 - @ExtendWith(MockitoExtension.class), @Mock, @InjectMocks
         when(mockScanner.nextInt())
                 .thenThrow(new InputMismatchException("This simulates test player 10 entering a non-integer value"))
                 .thenReturn(11);
+        // Act and Assert 6
         Assertions.assertEquals(11, testPlayer.assignAceValueToOneOrEleven());
     }
 
@@ -274,12 +285,13 @@ class PlayerTest {
                 new Card(CardRank.ACE_OF_, CardSuit.DIAMONDS),
                 new Card(CardRank.EIGHT_OF_, CardSuit.CLUBS)
         ));
-        // Act and Assert 1 - hand contains Ace
         when(mockScanner.nextInt()).thenReturn(11);
+
+        // Act and Assert 1 - hand contains Ace
         Assertions.assertEquals(19,
                 testPlayer.calculateScoreForPlayerHand(testPlayer.getHand()));
 
-        // Arrange - @ExtendWith(MockitoExtension.class), @Mock, @InjectMocks
+        // Arrange
         testPlayer.setHand(List.of(
                 new Card(CardRank.TWO_OF_, CardSuit.DIAMONDS),
                 new Card(CardRank.TEN_OF_, CardSuit.CLUBS),
@@ -298,8 +310,9 @@ class PlayerTest {
                 new Card(CardRank.ACE_OF_, CardSuit.CLUBS),
                 new Card(CardRank.FIVE_OF_, CardSuit.HEARTS)
         ));
-        // Act and Assert 3 - hand contains 1 Ace (treated as 1) and hand score exceeds 21
         when(mockScanner.nextInt()).thenReturn(1);
+
+        // Act and Assert 3 - hand contains 1 Ace (treated as 1) and hand score exceeds 21
         Assertions.assertEquals(28,
                 testPlayer.calculateScoreForPlayerHand(testPlayer.getHand()));
     }
@@ -407,8 +420,8 @@ class PlayerTest {
         Deck testDeck14 = new Deck(testCardList);
         Dealer testDealer14 = new Dealer(testDeck14);
 
-        // Act
         when(mockScanner.nextInt()).thenReturn(11);
+        // Act
         testPlayer.playSplitHandsAndUpdateHandScoreWithBestHand(testDealer14);;
         // Assert
         Assertions.assertEquals(21, testPlayer.getHandScore());
@@ -440,7 +453,6 @@ class PlayerTest {
         Deck testDeck = new Deck(testCardList);
         Dealer testDealer = new Dealer(testDeck);
 
-        // Act
         when(mockScanner.next())
                 .thenReturn("h")
                 .thenReturn("h")
@@ -448,6 +460,7 @@ class PlayerTest {
                 .thenReturn("h")
                 .thenReturn("s");
 
+        // Act
         testPlayer.playSplitHandsAndUpdateHandScoreWithBestHand(testDealer);
         // Assert
         Assertions.assertEquals(20, testPlayer.getHandScore());
@@ -481,7 +494,6 @@ class PlayerTest {
         Deck testDeck16 = new Deck(testCardList);
         Dealer testDealer16 = new Dealer(testDeck16);
 
-        // Act
         when(mockScanner.next())
                 .thenReturn("h")
                 .thenReturn("h")
@@ -489,10 +501,79 @@ class PlayerTest {
                 .thenReturn("h")
                 .thenReturn("h")
                 .thenReturn("s");
-
+        // Act
         testPlayer.playSplitHandsAndUpdateHandScoreWithBestHand(testDealer16);
         // Assert
         Assertions.assertEquals(21, testPlayer.getHandScore());
 
     }
+
+    @Test
+    @DisplayName("(1) method being tested = playerAsksDealerToHitOrStands()")
+    void testThatThePlayerAsksDealerToHitOrStandsMethodReturns19WhenPlayerHitsTwiceAndTreatsAceAsElevenAndThenOne() {
+        // Arrange - @ExtendWith(MockitoExtension.class), @Mock, @InjectMocks
+        List<Card> testPlayersHand = new ArrayList<>();
+        testPlayersHand.add(new Card(CardRank.FIVE_OF_, CardSuit.HEARTS));
+        testPlayersHand.add(new Card(CardRank.FOUR_OF_, CardSuit.CLUBS));
+        testPlayer.setHand(testPlayersHand);
+        testPlayer.setHandScore(9);
+
+        List<Card> testCardListFromWhichToDrawCardsFrom = new ArrayList<>();
+        testCardListFromWhichToDrawCardsFrom.add(new Card(CardRank.ACE_OF_, CardSuit.SPADES));
+        testCardListFromWhichToDrawCardsFrom.add(new Card(CardRank.NINE_OF_, CardSuit.CLUBS));
+
+        Deck testDeck = new Deck(testCardListFromWhichToDrawCardsFrom);
+        Dealer testDealer = new Dealer(testDeck);
+
+        when(mockScanner.next()).thenReturn("h").thenReturn("h").thenReturn("s"); // player asks for 2 more cards and then stands
+        when(mockScanner.nextInt()).thenReturn(11).thenReturn(1); // player assigns 11 to Ace and then assigns 1 to stop them going bust
+
+        // Act and Assert
+        Assertions.assertEquals(19, testPlayer.playerAsksDealerToHitOrStands(testDealer, testPlayersHand));
+    }
+    @Test
+    @DisplayName("(2) method being tested = playerAsksDealerToHitOrStands()")
+    void testThatThePlayerAsksDealerToHitOrStandsMethodReturns20WhenPlayerStands() {
+        // Arrange - @ExtendWith(MockitoExtension.class), @Mock, @InjectMocks
+        List<Card> testPlayersHand = new ArrayList<>();
+        testPlayersHand.add(new Card(CardRank.JACK_OF_, CardSuit.HEARTS));
+        testPlayersHand.add(new Card(CardRank.TEN_OF_, CardSuit.DIAMONDS));
+        testPlayer.setHand(testPlayersHand);
+        testPlayer.setHandScore(20);
+
+        List<Card> testCardListFromWhichToDrawCardsFrom = new ArrayList<>();
+        Deck testDeck = new Deck(testCardListFromWhichToDrawCardsFrom);
+        Dealer testDealer = new Dealer(testDeck);
+
+        when(mockScanner.next()).thenReturn("s"); // player does not ask for more cards i.e., stands after being dealt starting hand
+
+        // Act and Assert
+        Assertions.assertEquals(20, testPlayer.playerAsksDealerToHitOrStands(testDealer, testPlayersHand));
+    }
+    @Test
+    @DisplayName("(1) method being tested = playerAsksDealerToHitOrStands()")
+    void testThatThePlayerAsksDealerToHitOrStandsMethodStopsAskingIfPlayerWantsANewCardWhenScoreIsGreaterThan21() {
+        // Arrange - @ExtendWith(MockitoExtension.class), @Mock, @InjectMocks
+        List<Card> testPlayersHand = new ArrayList<>();
+        testPlayersHand.add(new Card(CardRank.TWO_OF_, CardSuit.SPADES));
+        testPlayersHand.add(new Card(CardRank.FOUR_OF_, CardSuit.CLUBS));
+        testPlayer.setHand(testPlayersHand);
+        testPlayer.setHandScore(6);
+
+        List<Card> testCardListFromWhichToDrawCardsFrom = new ArrayList<>();
+        testCardListFromWhichToDrawCardsFrom.add(new Card(CardRank.SIX_OF_, CardSuit.CLUBS));
+        testCardListFromWhichToDrawCardsFrom.add(new Card(CardRank.THREE_OF_, CardSuit.HEARTS));
+        testCardListFromWhichToDrawCardsFrom.add(new Card(CardRank.SEVEN_OF_, CardSuit.DIAMONDS));
+        testCardListFromWhichToDrawCardsFrom.add(new Card(CardRank.ACE_OF_, CardSuit.DIAMONDS));
+
+        Deck testDeck = new Deck(testCardListFromWhichToDrawCardsFrom);
+        Dealer testDealer = new Dealer(testDeck);
+
+        when(mockScanner.next()).thenReturn("h").thenReturn("h").thenReturn("h"); // player asks for 3 more cards - as this makes them go bust, they are not asked if they want another card
+
+        // Act and Assert
+        Assertions.assertEquals(22, testPlayer.playerAsksDealerToHitOrStands(testDealer, testPlayersHand));
+    }
 }
+
+

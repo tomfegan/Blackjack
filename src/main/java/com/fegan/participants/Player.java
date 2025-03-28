@@ -18,7 +18,6 @@ public class Player extends GameParticipant {
     public Player() {
         this("John Doe", new Scanner(System.in));
     }
-
     public Player(String name) {
         this(name, new Scanner(System.in));
     }
@@ -72,7 +71,6 @@ public class Player extends GameParticipant {
         }
         return playerChoice.equals("y");
     }
-
     /*tested*/public void splitStartingHand() {
         if (canSplitTheirStartingHand()) {
             // create ArrayList of ArrayLists
@@ -86,7 +84,7 @@ public class Player extends GameParticipant {
             System.out.println("Did not split hand as both cards were not the same rank, or there were more or less than 2 cards in the hand");
         }
     }
-    public void playSplitHandsAndUpdateHandScoreWithBestHand(Dealer dealer) {
+    /*tested*/public void playSplitHandsAndUpdateHandScoreWithBestHand(Dealer dealer) {
         int bestSplitHandValue = 0;
 
         for (List<Card> splitHand : splitHands) {
@@ -122,7 +120,6 @@ public class Player extends GameParticipant {
         // Set best split hand score to the player's hand score attribute - this will then work with decideResultAndUpdateGameResult() method
         handScore = bestSplitHandValue;
     }
-
     /*tested*/public int assignAceValueToOneOrEleven() {
         int dynamicAceValue = 0;
         while (true) {
@@ -177,7 +174,8 @@ public class Player extends GameParticipant {
         }
         System.out.println(displayHandAsCommaSeparatedList);
     }
-    public int playerAsksDealerToHitOrStands(Dealer dealer, List<Card> playerHand) {
+
+    /*tested*/public int playerAsksDealerToHitOrStands(Dealer dealer, List<Card> playerHand) {
         int score = handScore;
         while (doesPlayerWantNextCard()) {
             Card card = dealer.getNextCardFromDeck(dealer.getCardDeck());
@@ -192,7 +190,6 @@ public class Player extends GameParticipant {
         }
         return score;
     }
-
     // getters
     public String getName() {
         return name;
