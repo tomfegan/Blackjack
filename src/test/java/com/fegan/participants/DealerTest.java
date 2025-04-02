@@ -77,7 +77,7 @@ class DealerTest {
 
     @Test
     @DisplayName("method being tested = getNextCardFromDeck()")
-    void testGetNextCardFromDeckRetriesTheNextCardInTheDeckAndIncrementsIndex() {
+    void testGetNextCardFromDeckRetrievesTheNextCardInTheDeckAndIncrementsIndex() {
         // Arrange (see class fields)
 
         // Act and Assert

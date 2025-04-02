@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class GameParticipant {
-    protected int handScore;
-    protected List<Card> hand;
+    private int handScore;
+    private List<Card> hand;
     public GameParticipant() {
         handScore = 0;
         hand = new ArrayList<>();

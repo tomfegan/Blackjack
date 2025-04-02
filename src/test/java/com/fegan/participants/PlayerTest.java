@@ -551,7 +551,7 @@ class PlayerTest {
         Assertions.assertEquals(20, testPlayer.playerAsksDealerToHitOrStands(testDealer, testPlayersHand));
     }
     @Test
-    @DisplayName("(1) method being tested = playerAsksDealerToHitOrStands()")
+    @DisplayName("(3) method being tested = playerAsksDealerToHitOrStands()")
     void testThatThePlayerAsksDealerToHitOrStandsMethodStopsAskingIfPlayerWantsANewCardWhenScoreIsGreaterThan21() {
         // Arrange - @ExtendWith(MockitoExtension.class), @Mock, @InjectMocks
         List<Card> testPlayersHand = new ArrayList<>();

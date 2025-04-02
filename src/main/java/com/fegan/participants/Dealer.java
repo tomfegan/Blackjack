@@ -17,28 +17,30 @@ public class Dealer extends GameParticipant {
     }
     /*tested*/public void calculateAndSetDealersHandScore() {
         boolean doesHandContainAce = false;
-        handScore = 0;
+        setHandScore(0);
         int aces = 0;
         for (Card card : getHand()) {
             if (card.getRank().equals(com.fegan.CardRank.ACE_OF_)) {
                 doesHandContainAce = true;
-                handScore += 11;
+                setHandScore(getHandScore() + 11);
                 aces++;
             } else {
-                handScore += card.getCardValue();
+                setHandScore(getHandScore() + card.getCardValue());
             }
         }
 
-        if (handScore > 21 && doesHandContainAce) {
-            handScore = handScore - (10 * aces);
-            System.out.printf("The dealer has treated the Ace in their hand as 1 - dealer's hand is a 'soft %d'%n", handScore);
+        if (getHandScore() > 21 && doesHandContainAce) {
+            setHandScore(getHandScore() - (10 * aces));
+            System.out.printf("The dealer has treated the Ace in their hand as 1 - dealer's hand is a 'soft %d'%n",
+                    getHandScore());
         } else if (doesHandContainAce) {
-            if (hand.size() > 2) { // this condition stops the ACE being revealed when it is the face down card in the dealer's starting hand
-                System.out.printf("The dealer has treated the Ace in their hand as 11 - dealer's hand is a 'soft %d'%n", handScore);
+            if (getHand().size() > 2) { // this condition stops the ACE being revealed when it is the face down card in the dealer's starting hand
+                System.out.printf("The dealer has treated the Ace in their hand as 11 - dealer's hand is a 'soft %d'%n",
+                        getHandScore());
             }
         } else {
-            if (hand.size() > 2) {
-                System.out.printf("The dealer's current hand score is a 'hard %d'%n", handScore);
+            if (getHand().size() > 2) {
+                System.out.printf("The dealer's current hand score is a 'hard %d'%n", getHandScore());
             }
         }
     }
@@ -53,12 +55,12 @@ public class Dealer extends GameParticipant {
         int numberOfCardsDealtAtStartToHumanAndDealer = 4; // refactor: should not hard code this value
         for (int i = 0; i < numberOfCardsDealtAtStartToHumanAndDealer; i++) {
             if (i % 2 == 0) {
-                addCardToHand(getNextCardFromDeck(cardDeck), hand);
+                addCardToHand(getNextCardFromDeck(cardDeck), getHand());
             } else {
                 addCardToHand(getNextCardFromDeck(cardDeck), player.getHand());
             }
         }
-        System.out.printf("Dealer's starting hand: face UP card is %s%n", hand.getFirst()); // hole card is second card dealt to dealer
+        System.out.printf("Dealer's starting hand: face UP card is %s%n", getHand().getFirst()); // hole card is second card dealt to dealer
         player.printCardsInCurrentHand(player.getHand());
     }
     /*tested*/public Card getNextCardFromDeck(Deck deck) {
@@ -74,24 +76,24 @@ public class Dealer extends GameParticipant {
     @Override
     public void printCardsInCurrentHand(List<Card> cards) {
         StringBuilder displayHandAsCommaSeparatedList = new StringBuilder("The dealer's current hand is ");
-        for (int i = 0; i < hand.size(); i++) {
-            if (i < hand.size() - 2) {
-                displayHandAsCommaSeparatedList.append(hand.get(i)).append(", ");
-            } else if (i < hand.size() - 1) {
-                displayHandAsCommaSeparatedList.append(hand.get(i)).append(" and ");
+        for (int i = 0; i < getHand().size(); i++) {
+            if (i < getHand().size() - 2) {
+                displayHandAsCommaSeparatedList.append(getHand().get(i)).append(", ");
+            } else if (i < getHand().size() - 1) {
+                displayHandAsCommaSeparatedList.append(getHand().get(i)).append(" and ");
             } else {
-                displayHandAsCommaSeparatedList.append(hand.get(i));
+                displayHandAsCommaSeparatedList.append(getHand().get(i));
             }
         }
         System.out.println(displayHandAsCommaSeparatedList);
     }
 
     /*tested*/public void executeDealersPredeterminedHitAndStandRules() {
-        while (handScore < 17) { // soft 17 rules
+        while (getHandScore() < 17) { // soft 17 rules
             Card card = getNextCardFromDeck(cardDeck);
-            addCardToHand(card, hand);
+            addCardToHand(card, getHand());
             System.out.println("Dealer drew another card...");
-            printCardsInCurrentHand(hand);
+            printCardsInCurrentHand(getHand());
             calculateAndSetDealersHandScore();
         }
     }

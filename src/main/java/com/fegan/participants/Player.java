@@ -52,8 +52,8 @@ public class Player extends GameParticipant {
         return gameDeck.getListOfCards().size() - chosenCutPosition;
     }
     /*tested*/public boolean canSplitTheirStartingHand() {
-        if (hand.size() == 2) {
-            boolean canPlayerSplitHand = hand.getFirst().getRank().equals(hand.getLast().getRank());
+        if (getHand().size() == 2) {
+            boolean canPlayerSplitHand = getHand().getFirst().getRank().equals(getHand().getLast().getRank());
             System.out.println(canPlayerSplitHand ? "%s can split starting hand".formatted(name) :
                     "%s cannot split starting hand".formatted(name));
             return canPlayerSplitHand;
@@ -77,9 +77,9 @@ public class Player extends GameParticipant {
             splitHands.add(new ArrayList<>());
             splitHands.add(new ArrayList<>());
             // Add the Card at index 0 in hand to ArrayList at index 0
-            splitHands.getFirst().add(hand.getFirst());
+            splitHands.getFirst().add(getHand().getFirst());
             // Add the Card at index 1 in hand to ArrayList at index 1
-            splitHands.getLast().add(hand.getLast());
+            splitHands.getLast().add(getHand().getLast());
         } else {
             System.out.println("Did not split hand as both cards were not the same rank, or there were more or less than 2 cards in the hand");
         }
@@ -118,7 +118,7 @@ public class Player extends GameParticipant {
         }
         System.out.printf("%s split hands = %s%n", name, splitHands);
         // Set best split hand score to the player's hand score attribute - this will then work with decideResultAndUpdateGameResult() method
-        handScore = bestSplitHandValue;
+        setHandScore(bestSplitHandValue);
     }
     /*tested*/public int assignAceValueToOneOrEleven() {
         int dynamicAceValue = 0;
@@ -176,7 +176,7 @@ public class Player extends GameParticipant {
     }
 
     /*tested*/public int playerAsksDealerToHitOrStands(Dealer dealer, List<Card> playerHand) {
-        int score = handScore;
+        int score = getHandScore();
         while (doesPlayerWantNextCard()) {
             Card card = dealer.getNextCardFromDeck(dealer.getCardDeck());
             dealer.addCardToHand(card, playerHand);
