@@ -20,6 +20,12 @@ public abstract class GameParticipant {
     public void setHandScore(int handScore) {
         this.handScore = handScore;
     }
+    public void addToHandScore(int value) {
+        handScore += value;
+    }
+    public void takeawayFromHandScore(int value) {
+        handScore -= value;
+    }
     public void setHand(List<Card> hand) {
         this.hand = hand;
     }

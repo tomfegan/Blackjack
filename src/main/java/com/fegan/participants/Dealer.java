@@ -22,15 +22,15 @@ public class Dealer extends GameParticipant {
         for (Card card : getHand()) {
             if (card.getRank().equals(com.fegan.CardRank.ACE_OF_)) {
                 doesHandContainAce = true;
-                setHandScore(getHandScore() + 11);
+                addToHandScore(11);
                 aces++;
             } else {
-                setHandScore(getHandScore() + card.getCardValue());
+                addToHandScore(card.getCardValue());
             }
         }
 
         if (getHandScore() > 21 && doesHandContainAce) {
-            setHandScore(getHandScore() - (10 * aces));
+            takeawayFromHandScore(10 * aces);
             System.out.printf("The dealer has treated the Ace in their hand as 1 - dealer's hand is a 'soft %d'%n",
                     getHandScore());
         } else if (doesHandContainAce) {
